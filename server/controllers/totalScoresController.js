@@ -9,7 +9,7 @@ const getTotals = asyncHandler(async (req, res) => {
     res.json(totals)
 })
 
-const updateTotals = asyncHandler(async (req,res) => {
+const updateChordTotals = asyncHandler(async (req,res) => {
     const filter = { user: req.params.id };
     const update = {
         totalChordsAttempted: req.body.totalAttempted,
@@ -32,7 +32,33 @@ const updateTotals = asyncHandler(async (req,res) => {
 })
 
 
+const updatePitchTotals = asyncHandler(async (req,res) => {
+    const filter = { user: req.params.id };
+    const update = {
+        totalPitchesAttempted: req.body.totalPitchesAttempted,
+        totalPitchesCorrect: req.body.totalPitchesCorrect,
+        currentPitchStreak: req.body.currentPitchStreak
+    };
+    const totals = await TotalScores.findOneAndUpdate(filter, update, { new: true });
+    
+    if (!totals) {
+        console.log("creating new record")
+        newTotals = await TotalScores.create({
+            user: req.params.id,
+            totalPitchesAttempted: req.body.totalPitchesAttempted,
+            totalPitchesCorrect: req.body.totalPitchesCorrect,
+            currentPitchStreak: req.body.currentPitchStreak
+        });
+        res.status(200).json(newTotals)
+    }
+    else {
+        res.json(totals)
+    }
+})
+
+
 module.exports = {
-    updateTotals,
-    getTotals
+    updateChordTotals,
+    getTotals,
+    updatePitchTotals
 }

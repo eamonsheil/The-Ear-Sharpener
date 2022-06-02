@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema
 
-const chordScoreSchema = Schema({ 
+const pitchScoreSchema = mongoose.Schema({
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    score: Number,
+    correctAnswerStreak: Number,
     date: {
         type: Date,
         default: Date.now
     }
 })
 
-module.exports = mongoose.model('ChordScore', chordScoreSchema)
+module.exports = mongoose.model('PitchScore', pitchScoreSchema)

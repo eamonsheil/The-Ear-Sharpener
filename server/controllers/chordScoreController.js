@@ -3,12 +3,34 @@ const ChordScore = require('../models/chordScoreModel');
 const User = require('../models/userModel');
 
 
-const getScores = asyncHandler(async (req, res) => {
-    const scores = await ChordScore.find()
-    res.status(200).json(scores)
+const getChordScores = asyncHandler(async (req, res) => {
+    const scores = await ChordScore.aggregate([
+        { $sort: { score: -1 }},
+        { $lookup: {
+               from: "users",
+               localField: "user",
+               foreignField: "_id",
+               as: "user"
+            }
+        },
+        { $set: {
+            user: { $first: "$user" }
+        }},
+        { $set: {
+            name: "$user.name"
+        }},
+        { $unset: [
+            "_id",
+            "user",
+            "__v"
+        ]}
+    ])
+    const topScores = scores.slice(0, 20)
+    res.status(200).json(topScores)
 })
 
-const postScore = asyncHandler(async (req, res) => {
+
+const postChordScore = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     const score = await ChordScore.create({
         user: req.user.id,
@@ -17,7 +39,9 @@ const postScore = asyncHandler(async (req, res) => {
     res.json({user: user.name, score: score.score})
 })
 
+
+
 module.exports = {
-    getScores,
-    postScore
+    getChordScores,
+    postChordScore
 }

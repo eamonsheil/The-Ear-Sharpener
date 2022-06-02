@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router()
-const { updateTotals, getTotals } = require('../controllers/totalScoresController')
+const { updateChordTotals, getTotals, updatePitchTotals } = require('../controllers/totalScoresController')
 const { protect } = require('../middleware/authMiddleware')
 
-router.route('/:id')
-.patch(updateTotals)
-.get(getTotals)
+
+
+router.get('/all/:id', getTotals)
+
+router.patch('/chords/:id', updateChordTotals)
+
+router.patch('/pitches/:id', updatePitchTotals)
+
+
 
 module.exports = router;
