@@ -11,19 +11,6 @@ const port = process.env.PORT || 5000;
 connectDB()
 const app = express();
 
-// const whitelist = ['http://localhost:3000']
-
-// const corsOptions = {
-//     origin: (origin, callback) => {
-//         if (whitelist.indexOf(origin) !== -1 || !origin) {
-//             callback(null, true)
-//         }
-//         else {
-//             callback(newError('Not allowed by cors'));
-//         }
-//     },
-//     optionsSuccessStatus: 200
-// }
 app.use(cookieParser());
 
 // app.use(cors(corsOptions));

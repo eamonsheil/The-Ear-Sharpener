@@ -4,11 +4,6 @@ const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 
 
-
-// @desc    Register new user
-// @route   POST /api/users
-// @access  Public
-// asynchandler is used to handle exceptions
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
     if (!name || !email || !password){
@@ -47,9 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc    Authenticate a user
-// @route   POST /api/users/login
-// @access  Public
+
 const loginUser = asyncHandler(async (req, res) => {
     const {email, password} = req.body
     // check for a user with that email
@@ -76,10 +69,6 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 })
 
-
-// @desc    Get user data
-// @route   GET  /api/users/me
-// @access  Private --> to make this route private we need to use middleware
 const getMe = asyncHandler(async (req, res) => {
     res.status(200).json(req.user)
     // const { id, name, email } = await User.findById(req.user.id)
