@@ -19,18 +19,17 @@ app.use(express.json());
 app.use(urlencoded({ extended: false }))
 // app.use(require("./routes/record"));
 // app.use('/api/chordRenames', require('./routes/chordRenamesRoutes'))
-app.use('/users', require("./routes/userRoutes"));
-app.use('/scores', require("./routes/scoresRoutes"));
-app.use('/totals', require("./routes/totalScoresRoutes"));
+app.use('/api/users', require("./routes/userRoutes"));
+app.use('/api/scores', require("./routes/scoresRoutes"));
+app.use('/api/totals', require("./routes/totalScoresRoutes"));
 
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'client/build')))
+    app.use(express.static('client/build'))
 
     app.get('*', (req,res) =>
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')
-        )
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     )
 } else {
     app.get('/', (req, res) => res.send('Please set to production'))
