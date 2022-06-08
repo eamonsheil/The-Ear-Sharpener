@@ -20,7 +20,6 @@
     "vexflow": "^4.0.3",
     "web-vitals": "^2.1.4"
   },
-  "build": "react-scripts build",
   "proxy": "http://localhost:5000",
   "scripts": {
     "start": "react-scripts start",
