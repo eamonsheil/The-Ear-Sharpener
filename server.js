@@ -1,6 +1,6 @@
 const urlencoded = require("body-parser/lib/types/urlencoded");
 const express = require("express");
-require('dotenv').config({ path: '.env' });
+require('dotenv').config();
 // const dotenv = require('dotenv').config()
 const cors = require('cors');
 const connectDB = require('./config/db');
