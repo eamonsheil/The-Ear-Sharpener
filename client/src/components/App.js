@@ -14,7 +14,7 @@ const TOKEN = localStorage.getItem("token");
 console.log(TOKEN)
  
   useEffect(() => {
-    fetch(`/users/me`, {
+    fetch(`/api/users/me`, {
       method: "GET",
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem("token"),

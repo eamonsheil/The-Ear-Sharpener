@@ -6,7 +6,7 @@ function PitchesLeaderboard() {
     const [topScores, setTopScores] = useState([]);
 
     useEffect(() => {
-        fetch(`/scores/pitch_scores`)
+        fetch(`/api/scores/pitch_scores`)
         .then( res => res.json())
         .then( data => setTopScores(data))
     },[])

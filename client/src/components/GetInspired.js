@@ -54,7 +54,7 @@ function GetInspired({user, playAllKeys, setInChordEx}) {
             return undefined;
         }
         else {
-            fetch(`/totals/all/${user._id}`)
+            fetch(`/api/totals/all/${user._id}`)
             .then( res => res.json())
             .then( data => {
                 console.log("data:", data)
@@ -117,7 +117,7 @@ function GetInspired({user, playAllKeys, setInChordEx}) {
             
         if (correctAnswerStreak > 0)
         {
-        fetch(`/scores/pitch_scores`, {
+        fetch(`/api/scores/pitch_scores`, {
             method: "POST",
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem("token"),
@@ -140,7 +140,7 @@ function GetInspired({user, playAllKeys, setInChordEx}) {
             totalPitchesCorrect: numCorrect,
             currentPitchStreak: streak
         }
-       fetch(`/totals/pitches/${user._id}`, {
+       fetch(`/api/totals/pitches/${user._id}`, {
            method: "PATCH",
            headers: {
                "Content-Type": "application/json",

@@ -62,7 +62,7 @@ function ChordTraining({ user,  setShowLeaderboard, showLeaderboard, chordParams
             return undefined;
         }
         else {
-            fetch(`/totals/all/${user._id}`)
+            fetch(`/api/totals/all/${user._id}`)
             .then( res => res.json())
             .then( data => {
                 console.log(data)
@@ -188,7 +188,7 @@ function ChordTraining({ user,  setShowLeaderboard, showLeaderboard, chordParams
             totalAttempted: totalQs,
             totalCorrect: (chordParams.totalGameTime === Infinity) ? score + 1 : score
         }
-        fetch(`/totals/chords/${user._id}`, {
+        fetch(`/api/totals/chords/${user._id}`, {
             method: "PATCH",
             headers: {
                  Authorization: 'Bearer ' + localStorage.getItem("token"),

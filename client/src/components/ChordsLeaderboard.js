@@ -6,7 +6,7 @@ function ChordsLeaderboard() {
     const [topScores, setTopScores] = useState([]);
 
     useEffect(() => {
-        fetch(`/scores/chord_scores`)
+        fetch(`/api/scores/chord_scores`)
         .then( res => res.json())
         .then( data => setTopScores(data))
     },[])

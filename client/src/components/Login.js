@@ -33,7 +33,7 @@ function Login({ setUser }) {
     function handleLogin(e) {
         e.preventDefault();
         console.log(loginFormData);
-       fetch(`/users/login`, {
+       fetch(`/api/users/login`, {
            method: "POST",
         //    credentials: 'include',
            headers: {
@@ -58,7 +58,7 @@ function Login({ setUser }) {
         e.preventDefault();
         console.log(registerFormData);
 
-       fetch(`/users`, {
+       fetch(`/api/users`, {
            method: "POST",
            headers: {
                "Content-Type": "application/json",
