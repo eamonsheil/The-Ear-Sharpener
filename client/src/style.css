@@ -1,0 +1,558 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body {
+  background: linear-gradient(127deg, #66d0fa, #84ceeb00 90%),
+              linear-gradient(127deg, #c1c8e4, #c1c8e400 90%),
+              linear-gradient(336deg, #7f52d2c2, #8760d000 90%);
+  height: 100vh;
+  width: 100%;
+  
+
+}
+
+h1 {
+  text-align: center;
+}
+
+/* -----------App headers --------*/
+.app-title {
+  margin: 2em 30% 2em;
+  width: 15em;
+  color: #6086e6;
+  font-size: 2em;
+  text-shadow: -1px 2px 5px var(--text-color); ;
+  /* border: 1px solid black; */
+}
+.welcome-login {
+  position: absolute;
+  top: .2em;
+  right: 1em;
+  height: 4em;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-evenly;
+  align-items: center;
+  text-transform: capitalize;  
+  color: #6086e6;
+  text-shadow: 0 0 2px var(--text-color);
+}
+
+
+:root {
+  --bg: #242526;
+  --bg-accent: #484a4d;
+  --text-color: #dadce1;
+  --nav-size: 60px;
+  --border: 1px solid #474a4d;
+  --border-radius: 5px;
+  --speed: 500ms;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+/* -------------NavBar------ */
+.navbar {
+  height: var(--nav-size);
+  background-image: linear-gradient(120deg, #5680e9a8, #5abaea98);
+  padding: 0 1rem;
+  box-shadow: 0 2px 5px #5abaea98;
+  width: 100%;
+  position: sticky;
+  top:0;
+  z-index: 9;
+}
+
+.navbar-menu {
+  width: 100%;
+  height: 100%;
+}
+
+/* Navigation links */
+.navbar-nav {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  margin: 0 10%;
+  justify-content: space-evenly;
+}
+
+.nav-item {
+  /* margin: 0 2em; */
+  width: 4em;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.icon-button {
+  --button-size: calc(var(--nav-size) * 0.5);
+  background-color: rgba(255, 255, 255, 0.718);
+  color: #6086e6;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 300ms;
+  width: fit-content;
+}
+.icon-button:hover {
+  filter: brightness(1.2);
+}
+
+  /* Dropdown Menu */
+.dropdown {
+  position: absolute;
+  top: 58px;
+  width: 290px;
+  min-height: 20vh;
+  background-color: #6086e6;
+  border: 1px solid rgba(255, 255, 255, 0.301);
+  /* transform: translateX(-45%); */
+  /* transform: translateY(1%); */
+  /* background-color: var(--bg); */
+  /* border: var(--border); */
+  border-radius: var(--border-radius);
+  padding: .5rem;
+  overflow: scroll;
+  z-index: 9;
+}
+.menu {
+  width: 100%
+}
+
+.menu-item {
+  padding: 0.5em;
+  padding-left: 3em;
+  min-height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--border-radius);
+  transition: background var(--speed);
+}
+.dropdown h3 {
+  padding: 1em 0;
+  text-align: center;
+}
+
+.menu-item:hover {
+  background-color: #5abaea98;
+}
+/* .radio-select {
+  margin-left: 1em;
+} */
+/* ------------Home ------------------ */
+.home-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3em 0 0 1em;
+  /* border: 1px solid black; */
+}
+
+.login-button {
+  /* position:absolute;
+  right: 1em; */
+  border: 1px solid;
+}
+
+.exercise-links-container {
+  margin: 2em 0;
+  width: 100%;
+}
+
+.exercises-link {
+  position: relative;
+  background-image: linear-gradient(345deg, #5680e9, #5abaeae6 80%);
+  box-shadow: -2px 2px 5px #5680e95d;
+  border-radius: 3px;
+  width: 100%;
+  height: 13em;
+  display: flex;
+  /* border: 1px solid black; */
+  align-items: center;
+  margin: 1em 0;
+  justify-content:space-evenly;
+}
+
+.exercises-link:hover {
+  animation: move .5s ease-in-out forwards;
+  
+}
+
+@keyframes move {
+  /* 0%  {box-shadow: 0 10px 15px blue;} */
+  100% {box-shadow: -10px 15px 15px #4d76df85;}
+  from {left: 0px;
+        bottom: 0px;}
+  to {left: 6px;
+      bottom: 4px;}
+}
+.home-link {
+  position: absolute;
+  font-size: 2em;
+  left: 5em;
+  top: 2.3em;
+  text-shadow: -1px 2px 10px #365196;
+  /* margin-left: 3em; */
+}
+
+.inspiration-link {
+  height: 15em;
+  display: flex;
+  align-items: center;
+  border: 1px solid red;
+}
+
+.noot-1,
+.noot-2,
+.noot-3,
+.noot-4,
+.noot-5,
+.noot-6,
+.noot-7,
+.noot-8,
+.noot-9,
+.noot-10 {
+  /* position: absolute; */
+  margin-left: 5em;
+  animation: notes 3s infinite linear;
+  font-size: 1.5em;
+  opacity: 0;
+  /* border: 1px solid red; */
+}
+.noot-1 {
+  margin-top: 90px;
+  left: 0;
+  animation-delay: 0.3s;
+}
+
+.noot-2 {
+  margin-top: 3px;
+  left: 30%;
+  animation-delay: .6s;
+}
+
+.noot-3 {
+  margin-top: 118px;
+  left: 60%;
+  animation-delay: .9s;
+}
+
+.noot-4 {
+  margin-top: 50px;
+  left: 90%;
+  animation-delay: 1.05s;
+}
+.noot-5 {
+  margin-bottom: 60px;
+  animation-delay: 1.2s;
+}
+.noot-6 {
+  margin-top: 90px;
+  left: 0;
+  animation-delay: 1.8s;
+}
+
+.noot-7 {
+  margin-top: 3px;
+  left: 30%;
+  animation-delay: 2.1s;
+}
+
+.noot-8 {
+  margin-top: 118px;
+  left: 60%;
+  animation-delay: 2.4s;
+}
+
+.noot-9 {
+  margin-top: 50px;
+  left: 90%;
+  animation-delay: 2.55s;
+}
+.noot-10 {
+  margin-bottom: 60px;
+  animation-delay: 2.7s;
+}
+
+@keyframes notes {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: .5;
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.5) translate(30%, -30%);
+  }
+  80% {
+    opacity: 0;
+    transform: scale(1.5) translate(60%, -60%);
+  }
+  /* 100% {
+    transform: scale(1.5) translate(90%, -90%);
+    opacity: 0;
+  } */
+}
+
+/* -----------ChordTraining----------- */
+.chord-game-container {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  background-color: rgba(255, 255, 255, 0.119);
+  border-top: none;
+  border-radius: 0 0 1em 1em;
+  min-height: 80vh;
+  width: 70%;
+  margin:0 15%;
+  /* padding: 2em 0; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+.exercise-container {
+  display: grid;
+  justify-items: center;
+  align-items: flex-start;
+  width: 80%;
+  /* margin: 0 10%; */
+  grid-template-columns: 15% 70% 15%;
+  /* grid-template-rows: ; */
+  height: 100%;
+  /* padding: 0 2em; */
+  /* border: 1px solid black; */
+}
+
+.score-data {
+  display: flex;
+  flex-direction: column;
+  height: 5em;
+  /* margin: 2em 1em; */
+  /* height: 10em; */
+  justify-content: space-evenly;
+  color: #6086e6;
+  text-shadow: 0 0 2px var(--text-color);
+  /* border: 1px solid blue; */
+  min-width: 18em;
+}
+
+.answerOptions {
+  /* border: 1px solid blue; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content:space-evenly; */
+  text-align: center;
+  /* height: 32em; */
+}
+
+.exercise {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid blue; */
+}
+
+.play-buttons {
+  margin: 1em 0;
+  /* width: fit-content;   */
+}
+
+.exercise-info {
+  margin: 1em 0;
+  color: #6086e6;
+  text-shadow: 0 0 2px var(--text-color);
+  min-width: 18em;
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  height: 5em;
+}
+
+.chord-options {
+  display:grid;
+  /* grid-template-columns: 10em 10em 10em; */
+  grid-template-columns: 30% 30% 30%;
+  grid-template-rows: 5.5em 5.5em 5.5em;
+  column-gap: 1em;
+  row-gap: 1em;
+  margin: 0 5%;
+  justify-content: center;
+  
+}
+
+.leaderboard-link {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 12em;
+}
+
+
+
+/* -------Perfect Pitch Game -------- */
+.note-options {
+  display:grid;
+  grid-template-columns: repeat(4, 10em);
+  grid-template-rows: repeat(3, 5.5em);
+  column-gap: .5em;
+  row-gap: .5em;
+  justify-content: center;
+}
+
+
+/* ------------Modals --------------- */
+.modal-wrapper {
+  position:fixed;
+  top: 0px;
+  left: 0px;
+  height: 100vw;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  width: 100%;
+}
+
+.modal-content {
+  margin-top: 13vw;
+  width: 10em;
+  min-width: 18em;
+    display: flex;
+    /* padding: 5em 0; */
+    z-index: 1501;
+    flex-flow: column;
+    background-color: #6086e6;
+    box-shadow: rgb(0 0 0 / 30%) 0px 24px 24px 0px, rgb(0 0 0 / 22%) 0px 0px 24px 0px;
+    /* box-sizing: border-box; */
+    height: 15em;
+    justify-content: space-evenly;
+    align-items: center;
+    /* border-style: solid; */
+    border-radius: 5px;
+    animation: 300ms linear 0s 1 normal forwards running Modal-keyframes-ModalOpen-0-2-38;
+}
+
+.modal-overlay {
+  opacity: 1;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1500;
+  position: fixed;
+  transition: opacity 300ms ease 0s;
+  will-change: opacity;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+@keyframes Modal-keyframes-ModalOpen-0-2-38 {
+0% {
+  opacity: 0;
+  transform: translateY(-80px);
+}
+60% {
+  opacity: 1;
+  transform: translateY(14px);
+}
+100% {
+  transform: translateY(0px);
+}}
+
+
+/* ---------Login-------- */
+.login-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login-container {
+  margin-top: 5em;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 20em;
+  height: 27em;
+  box-shadow: rgb(0 0 0 / 30%) 0px 24px 24px 0px, rgb(0 0 0 / 22%) 0px 0px 24px 0px;
+  /* background: border-box rgb(66, 66, 66); */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.login-btn {
+  margin: 0 8px;
+}
+
+/* ---------Leaderboard Page-------- */
+.leaderboard-container {
+  /* margin 1em; */
+  /* height: 50em; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.leaderboard {
+  margin: 2em 6em;
+  height:30em;
+  overflow: scroll;
+  width: 20em;
+  background-color: rgba(255, 255, 255, 0.119);
+  border-radius: 5px;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid; */
+  
+  padding: 1em;
+  overflow: scroll;
+}
+
+.leaderboard-entry {
+  margin: .3em;
+  padding: .2em;
+  display: flex;
+  justify-content: space-between;
+  width: 10em;
+
+  /* flex-direction: column; */
+}
+
+.leaderboard-data {
+  text-transform: capitalize;
+}
+
