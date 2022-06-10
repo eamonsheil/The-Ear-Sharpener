@@ -28,7 +28,7 @@ console.log(TOKEN)
   },[])
 
   function handleLogout() {
-    fetch(`/users/logout`)
+    fetch(`/api/users/logout`)
     .then( res => res.json())
     .then( data => {
       console.log(data)
