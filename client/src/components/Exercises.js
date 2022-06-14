@@ -43,7 +43,7 @@ function Exercises({ user, handleLogout }) {
                 }
 
                 <Routes>
-                    <Route path="/chord_practice" element={
+                    <Route path="/exercises/chord_practice" element={
                         <ChordTraining
                             user={user}
                             setShowLeaderboard={setShowLeaderboard}
@@ -53,7 +53,7 @@ function Exercises({ user, handleLogout }) {
                             setInChordEx={setInChordEx}
                         />
                     }/>
-                    <Route path="/pitch_practice" element={
+                    <Route path="/exercises/pitch_practice" element={
                         <GetInspired
                             user={user}
                             playAllKeys={playAllKeys}
