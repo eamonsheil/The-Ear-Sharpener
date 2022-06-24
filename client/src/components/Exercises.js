@@ -1,8 +1,9 @@
 import { Route, Routes} from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ExercisesNavbar from "./ExercisesNavbar";
 import ChordTraining from "./ChordTraining";
 import GetInspired from "./GetInspired";
+import { UserContext } from '../context/UserContextProvider';
 import { Button } from "@mui/material";
 
 const defChordParams = {
@@ -11,7 +12,8 @@ const defChordParams = {
     totalGameTime: 60000
 }
 
-function Exercises({ user, handleLogout }) {
+function Exercises() {
+    const { user, handleLogout } = useContext(UserContext);
     const [showLeaderboard, setShowLeaderboard] = useState(false)
     const [chordParams, setChordParams] = useState(defChordParams)
     const [useInversions, setUseInversions] = useState(false)
@@ -43,9 +45,8 @@ function Exercises({ user, handleLogout }) {
                 }
 
                 <Routes>
-                    <Route path="/exercises/chord_practice" element={
+                    <Route path="/chord_practice" element={
                         <ChordTraining
-                            user={user}
                             setShowLeaderboard={setShowLeaderboard}
                             showLeaderboard={showLeaderboard} 
                             chordParams={chordParams} 
@@ -53,7 +54,7 @@ function Exercises({ user, handleLogout }) {
                             setInChordEx={setInChordEx}
                         />
                     }/>
-                    <Route path="/exercises/pitch_practice" element={
+                    <Route path="/pitch_practice" element={
                         <GetInspired
                             user={user}
                             playAllKeys={playAllKeys}

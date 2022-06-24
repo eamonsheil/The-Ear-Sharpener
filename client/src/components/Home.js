@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material';
+import { UserContext } from '../context/UserContextProvider'; 
 
 
-function Home({user, handleLogout}) {
+
+function Home() {
+    const { user, handleLogout } = useContext(UserContext)
     const navigate = useNavigate();
 
 

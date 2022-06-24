@@ -1,14 +1,16 @@
 import ChordsLeaderboard from './ChordsLeaderboard';
 import ExerciseCompleteModal from './modals/ExerciseCompleteModal';
+import { UserContext } from '../context/UserContextProvider';
 import * as Tone from 'tone';
-import Button from '@mui/material/Button';
+import { Button, Snackbar } from '@mui/material';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import Snackbar from '@mui/material/Snackbar';
-import { useState, useEffect, useMemo } from 'react';
+
+import { useState, useEffect, useMemo, useContext } from 'react';
 
 const answerObj = { chordAnswer: [], correctAns: "" }
 
-function ChordTraining({ user,  setShowLeaderboard, showLeaderboard, chordParams, useInversions, setInChordEx}) {
+function ChordTraining({  setShowLeaderboard, showLeaderboard, chordParams, useInversions, setInChordEx}) {
+    const { user } = useContext(UserContext);
     const [answer, setAnswer] = useState(answerObj);
     const [score, setScore] = useState(0);
     const [totalQs, setTotalQs] = useState(0);
@@ -59,7 +61,7 @@ function ChordTraining({ user,  setShowLeaderboard, showLeaderboard, chordParams
     useEffect(() => {
         setInChordEx(true)
         if (!user) {
-            return undefined;
+            return;
         }
         else {
             fetch(`/api/totals/all/${user._id}`)

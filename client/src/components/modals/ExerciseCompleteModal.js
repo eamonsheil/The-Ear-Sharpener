@@ -1,14 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { Button } from "@mui/material";
 
+import { UserContext } from '../../context/UserContextProvider'
 
 
-function ExerciseCompleteModal({ user, userScore, resetGame, chordParams}) {
-    
+
+function ExerciseCompleteModal({ userScore, resetGame, chordParams}) {
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         if (!user) {
-            return undefined;
+            return;
         }
         else {
             const scoreObj = {

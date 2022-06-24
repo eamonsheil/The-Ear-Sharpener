@@ -1,12 +1,14 @@
 import * as Tone from 'tone'
-import Button from '@mui/material/Button';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import Snackbar from '@mui/material/Snackbar';
+import { Button, Snackbar } from '@mui/material';
 import PitchesLeaderboard from './PitchesLeaderboard';
-import {useState, useEffect, useMemo} from 'react'
+import { useState, useEffect, useMemo, useContext } from 'react'
+import { UserContext } from '../context/UserContextProvider';
 
 
-function GetInspired({user, playAllKeys, setInChordEx}) {
+
+function GetInspired({ playAllKeys, setInChordEx}) {
+    const { user } = useContext(UserContext);
     const [currentNote, setCurrentNote] = useState("");
     const [correctAnswerStreak, setCorrectAnswerStreak] = useState(0);
     const [currentKey, setCurrentKey] = useState("Random");
