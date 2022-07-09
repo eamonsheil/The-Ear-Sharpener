@@ -5,17 +5,16 @@ const User = require('../models/userModel')
 
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body
-    if (!name || !email || !password){
-        res.status(400)
-        throw new Error('Please complete all fields')
+    const { name, email, password, password_confirmation } = req.body
+    console.log(req.body)
+    if (!name || !email || !password || !password_confirmation){
+        res.status(400).send({message: 'Please complete all fields'})
     }
         // check if user exists
     const userExists = await User.findOne({email})
    
     if (userExists) {
-        res.status(400)
-        throw new Error('User already exists')
+        res.status(400).send({message: 'User already exists'})
     }
     // Hash password
     const salt = await bcrypt.genSalt(10)
@@ -37,8 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
         })
     } 
     else {
-        res.status(400)
-        throw new Error('Invalid user data')
+        res.status(400).send({message: 'Invalid user data'})
     }
 })
 
@@ -64,8 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 token: token
             })
     } else {
-        res.status(400)
-        throw new Error('Invalid credentials')
+        res.status(400).send({message: 'Invalid credentials'})
     }
 })
 

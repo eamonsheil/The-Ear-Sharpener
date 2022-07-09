@@ -15,7 +15,7 @@ function ChordsLeaderboard() {
     return ( 
         <div className="leaderboard-container">
             <div>
-                <h2>Leaderboard page</h2>
+                <h2>Top Scores</h2>
             </div>
             <div className="leaderboard">
                 <ul className="leaderboard-list">

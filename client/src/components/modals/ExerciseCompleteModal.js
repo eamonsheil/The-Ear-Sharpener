@@ -5,7 +5,7 @@ import { UserContext } from '../../context/UserContextProvider'
 
 
 
-function ExerciseCompleteModal({ userScore, resetGame, chordParams}) {
+function ExerciseCompleteModal({ userScore, resetGame, chordParams }) {
     const { user } = useContext(UserContext);
 
     useEffect(() => {

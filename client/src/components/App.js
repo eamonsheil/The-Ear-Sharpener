@@ -32,35 +32,13 @@ console.log(TOKEN)
   .then( data => setUser(data))
   },[])
 
-  // function handleLogout() {
-  //   fetch(`/api/users/logout`)
-  //   .then( res => res.json())
-  //   .then( data => {
-  //     console.log(data)
-  //     setUser(null)})
-  //     localStorage.clear()
-  //     navigate('/');
-  // }
-
  return ( 
-  <div>
-      {/* {user ? 
-        <div className='welcome-login'> 
-          <h4>Welcome, {user.name}</h4>
-          <Button variant="text" color="error" onClick={() => handleLogout()}>Logout</Button>
-        </div> 
-      : 
-      <div className='welcome-login'>
-        <Button onClick={() => navigate('/login')}>Login</Button>
-      </div>
-      } */}
-      
+  <div>      
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login setUser={setUser}/>} />
           <Route path="/exercises/*" element={<Exercises/>}/>
         </Routes>
-      
   </div>
  );
 };

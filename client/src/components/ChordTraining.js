@@ -207,7 +207,7 @@ function ChordTraining({  setShowLeaderboard, showLeaderboard, chordParams, useI
         <div className='exercise-container'>         
             <div className='score-data'>
                 <h3>Total answered: {score} out of {totalQs}</h3>
-                <p>lifetime score: {Math.round(score/totalQs * 10000)/100}%</p>
+                <p>lifetime score: {Math.round(score/totalQs * 10000)/100 ? Math.round(score/totalQs * 10000)/100: 0}%</p>
             </div>
             {showLeaderboard 
             ? <ChordsLeaderboard/> 
@@ -217,11 +217,11 @@ function ChordTraining({  setShowLeaderboard, showLeaderboard, chordParams, useI
                         {isGameOn && chordParams.totalGameTime !== Infinity ? timeRemaining : null}
                     </div>
                     <div className='exercise'>
-                        {(chordParams.totalGameTime === Infinity) 
-                        ? <div className='play-buttons'>
-                            <Button variant='contained' onClick={() => synth.triggerAttackRelease(answer.chord, '2n')}>Play Chord Again</Button> 
-                        </div>
+                         <div className='play-buttons'>
+                         {(chordParams.totalGameTime === Infinity) 
+                        ? <Button variant='contained' onClick={() => synth.triggerAttackRelease(answer.chord, '2n')}>Play Chord Again</Button> 
                         : null}
+                        </div>
                         <div className='chord-options'>
                             {chordsKeys.map(chord => {
                                 const correctedName = chord.split('_')
@@ -244,8 +244,7 @@ function ChordTraining({  setShowLeaderboard, showLeaderboard, chordParams, useI
                         </div>
                     </div>
                     {showExerciseCompleteModal 
-                            ? <ExerciseCompleteModal 
-                                user={user} 
+                            ? <ExerciseCompleteModal  
                                 userScore={userScore}
                                 resetGame={resetGame}
                                 chordParams={chordParams}

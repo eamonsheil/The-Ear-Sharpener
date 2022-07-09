@@ -9,18 +9,6 @@ function Home() {
     const { user, handleLogout } = useContext(UserContext)
     const navigate = useNavigate();
 
-
-
-    // function handleLogout() {
-    //     fetch(`/api/users/logout`)
-    //     .then( res => res.json())
-    //     .then( data => {
-    //       console.log(data)
-    //       setUser(null)})
-    //       localStorage.clear()
-    //       navigate('/');
-    //   }
-    
     return ( 
         <div className='home-container'>
             <div className='app-title'>

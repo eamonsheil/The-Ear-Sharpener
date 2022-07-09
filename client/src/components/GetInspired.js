@@ -19,6 +19,7 @@ function GetInspired({ playAllKeys, setInChordEx}) {
     
 
     const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+    const intervals = ["Tonic", "b2", "M2", "m3", "M3", "P4", "P5", "m6", "M6", "m7", "M7"]
     const piano = useMemo(() => {
         return new Tone.Sampler({
             urls: {
@@ -46,9 +47,6 @@ function GetInspired({ playAllKeys, setInChordEx}) {
             baseUrl: "https://tonejs.github.io/audio/salamander/"
         }
     ).toDestination()},[])
-    // const chordEvent = new Tone.ToneEvent(((time, chord) => {
-    //     piano.triggerAttackRelease(chord, 0.5, time);
-    // }), [0, 4, 8])
 
     useEffect(() => {
         setInChordEx(false)
@@ -77,14 +75,17 @@ function GetInspired({ playAllKeys, setInChordEx}) {
     function playChords() {
         const randNote = notes[Math.floor(Math.random() * 12)]
         setCurrentKey(randNote)
-        
+        const note = randomNote()
+
+        console.log( "key: ", randNote, "note:", note)
+
         Tone.start()
         piano.triggerAttackRelease(Tone.Frequency(`${playAllKeys ? randNote + '2' : 'C3'}`).harmonize([0, 7, 12, 16]), '4n', "+.5")
         piano.triggerAttackRelease(Tone.Frequency(`${playAllKeys ? randNote + '2' : 'C3'}`).harmonize([5, 9, 12, 17]), '4n', "+1")
         piano.triggerAttackRelease(Tone.Frequency(`${playAllKeys ? randNote + '2' : 'C3'}`).harmonize([7, 11, 14, 19]), '4n', "+1.5")
         piano.triggerAttackRelease(Tone.Frequency(`${playAllKeys ? randNote + '2' : 'C3'}`).harmonize([-5, 5, 11, 17]), '4n', "+2")
         piano.triggerAttackRelease(Tone.Frequency(`${playAllKeys ? randNote + '2' : 'C3'}`).harmonize([0, 7, 12, 16]), '2n', "+2.5")
-        piano.triggerAttackRelease(Tone.Frequency(`${randomNote()}3`), "2n", "+3.7")
+        piano.triggerAttackRelease(Tone.Frequency(`${note}3`), "2n", "+3.7")
         
 
     }
@@ -161,7 +162,7 @@ function GetInspired({ playAllKeys, setInChordEx}) {
         <div className='exercise-container'>        
             <div className='score-data'>
                 <h3>Total attempted: {score} out of {totalQs}</h3>
-                <p>lifetime score: {Math.round(score/totalQs * 10000)/100}%</p>
+                <p>lifetime score: {Math.round(score/totalQs * 10000)/100 ? Math.round(score/totalQs * 10000)/100: 0}%</p>
                 <p>Current streak: {correctAnswerStreak >= 2 ? correctAnswerStreak + " in a row!" : 0} </p>
             </div>  
             {showLeaderboard ? <PitchesLeaderboard/>

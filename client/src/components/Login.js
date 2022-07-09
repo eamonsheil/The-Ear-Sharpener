@@ -35,7 +35,6 @@ function Login({ setUser }) {
         console.log(loginFormData);
        fetch(`/api/users/login`, {
            method: "POST",
-        //    credentials: 'include',
            headers: {
                "Content-Type": "application/json",
                Accept: "application/json"
@@ -69,9 +68,10 @@ function Login({ setUser }) {
        .then( res => res.json())
        .then( data => {
            setUser(data)
-           localStorage.setItem("token", data.token)
+            console.log(data)
+            localStorage.setItem("token", data.token)
         })
-       .catch( error => console.log(error.message));
+        .catch( error => console.log(error));
         navigate('/');
     }
 
@@ -83,7 +83,7 @@ function Login({ setUser }) {
             </div>
         {showLogin ? 
             <div className='login-container'>
-            <h3>Login</h3>
+            <h2>Login</h2>
                 <Box
                     component="form"
                     sx={{
@@ -119,7 +119,7 @@ function Login({ setUser }) {
                 </form>
                 </Box>
                 <p>Don't have an account?</p>
-                <p onClick={() => setShowLogin(false)}><u>Create One Now</u></p>
+                <Button onClick={() => setShowLogin(false)}><u>Create One Now</u></Button>
             </div>
             :   
             <div className='login-container'>
@@ -154,6 +154,7 @@ function Login({ setUser }) {
                         />
                     <TextField
                             required
+                            type='password'
                             id="outlined-password-input"
                             label="Password"
                             name='password' 
@@ -162,6 +163,7 @@ function Login({ setUser }) {
                         />
                     <TextField
                             required
+                            type='password'
                             id="outlined-password-input"
                             label="Confirm Password"
                             name='password_confirmation' 
@@ -174,7 +176,7 @@ function Login({ setUser }) {
                 </form> 
                     
                 </Box>
-                <p onClick={() => setShowLogin(true)}>Return to login</p>
+                <Button onClick={() => setShowLogin(true)}>Return to login</Button>
             </div>}
         </div>
      );

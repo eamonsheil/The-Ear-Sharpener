@@ -15,7 +15,7 @@ function PitchesLeaderboard() {
     return ( 
         <div className="leaderboard-container">
             <div>
-                <h2>Leaderboard page</h2>
+                <h2>Best Correct Answer Streaks</h2>
             </div>
             <div className="leaderboard">
                 <ul className="leaderboard-list">
