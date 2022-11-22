@@ -1,13 +1,9 @@
 import * as React from 'react';
 
 export interface ISignupProps {
-    placeholder?: undefined
+  placeholder?: undefined;
 }
 
 export function Signup() {
-    return (
-        <div>
-
-        </div>
-    );
+  return <div></div>;
 }
