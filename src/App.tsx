@@ -10,8 +10,8 @@ const App = () => {
         <div>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/exercises/chord_practice' element={<ChordEx />} />
-                <Route path='/exercises/pitch-practice' element={<PitchEx />} />
+                <Route path='/chord_practice' element={<ChordEx />} />
+                <Route path='/pitch-practice' element={<PitchEx />} />
             </Routes>
         </div>
     );

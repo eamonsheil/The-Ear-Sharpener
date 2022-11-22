@@ -12,7 +12,7 @@ export function Home() {
             </div>
             <div className='exercise-links-container'>
                 <div className='exercises-link'>
-                    <a href='/exercises/chord_practice' className='home-link'>Chord Exercise</a>
+                    <a href='/chord_practice' className='home-link'>Chord Exercise</a>
                     <div className="noot-1">
                         &#9835;
                     </div>
@@ -30,7 +30,7 @@ export function Home() {
                     </div>
                 </div>
                 <div className='exercises-link'>
-                    <a href='/exercises/pitch_practice' className='home-link'>Pitch Exercise</a>
+                    <a href='/pitch_practice' className='home-link'>Pitch Exercise</a>
                     <div className="noot-6">
                         &#9835;
                     </div>
