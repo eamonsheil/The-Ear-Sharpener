@@ -2,12 +2,13 @@ import { useMemo, useState } from 'react';
 import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
 import { usePiano } from '../../hooks/usePiano';
+import { Piano } from '../../components/Piano';
 
 export interface IChordExProps {
     placeholder?: undefined
 }
 
-const inversions = {
+const inversions: ChordArr = {
     major: [[0, 4, 7], [0, 3, 8], [0, 5, 9]], 
     minor: [[0, 3, 7], [0, 4, 9], [0, 5, 8]], 
     augmented: [[0, 4, 8]], 
@@ -59,7 +60,7 @@ export function ChordEx() {
 
     function getRandomChord(note?:string) {
 
-        const chords = {
+        const chords: ChordArr = {
             major: Tone.Frequency(`${note}3`).harmonize(useInversions ? inversions.major[randNum(3)] : [0, 4, 7]),
             minor: Tone.Frequency(`${note}3`).harmonize(useInversions ? inversions.minor[randNum(3)] : [0, 3, 7]),
             augmented: Tone.Frequency(`${note}3`).harmonize([0, 4, 8]),
@@ -70,7 +71,7 @@ export function ChordEx() {
             diminished: Tone.Frequency(`${note}3`).harmonize([0, 3, 6, 9]),
             half_diminished: Tone.Frequency(`${note}3`).harmonize(useInversions ? inversions.half_diminished[randNum(4)] : [0, 3, 6, 10]) 
         }
-        const chordsKeys = Object.keys(chords)
+        const chordsKeys = Object.keys(chords) as string[]
         const chordQuality = chordsKeys[Math.floor(Math.random() * chordsKeys.length)]
         let randomChord = {currentChord: chords[chordQuality], chordQuality: chordQuality, note: note}
         return randomChord;
@@ -87,6 +88,7 @@ export function ChordEx() {
             {arr.length}
             <br />
             <button onClick={handleClick}>new note</button>
+            <Piano/>
         </div>
     );
 }
