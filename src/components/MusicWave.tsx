@@ -15,9 +15,12 @@ export function MusicWave() {
     if (!svg.current) {
       return
     }
-    console.log(svg.current)
 
+    // creates an animation in which each rect element on the svg  
+    // changes color and grows
     function loop() {
+
+
       setTimeout(() => {
         // debugger
         const curr = svg.current?.querySelector(`.wave${i}`) as SVGRectElement;
@@ -25,15 +28,15 @@ export function MusicWave() {
         const last1 = svg.current?.querySelector(`.wave${i - 2}`) as SVGRectElement;
         const last2 = svg.current?.querySelector(`.wave${i - 3}`) as SVGRectElement;
         if (curr) {
-          curr.style.fill = "#280193ff"
-          curr.style.transform = "scale(1.25, 1)"
+          curr.style.fill = "#200177"
+          curr.style.transform = "scale(1.05, 1.05)"
         }
         if (last) {
           last.style.fill = '#1b00a3ff'
           last.style.transform = 'none'
         }
         if (last1) {
-          last1.style.fill = '#22018eff'
+          last1.style.fill = '##22018eff'
           // last1.style.transform = "scale(1.1)"
         }
         if (last2) {
@@ -44,7 +47,7 @@ export function MusicWave() {
         if (i<=12) {
           loop()
         }
-      }, 50);
+      }, 80);
     }
     loop();
   }
@@ -87,7 +90,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0208704,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={25.399}
@@ -101,7 +104,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.030244,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={53.339}
@@ -115,7 +118,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0255609,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={38.099}
@@ -129,7 +132,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0295152,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={50.799}
@@ -143,7 +146,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0336524,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={66.038}
@@ -157,7 +160,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0180742,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={19.05}
@@ -171,7 +174,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0263991,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={40.639}
@@ -185,7 +188,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0161662,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={15.24}
@@ -199,7 +202,7 @@ export function MusicWave() {
             fill: '#4000b8',
             fillOpacity: 1,
             strokeWidth: 0.0233337,
-            transition: "all .2s ease-in-out"
+            transition: "all .1s ease-in-out"
           }}
           width={9.799}
           height={31.749}
