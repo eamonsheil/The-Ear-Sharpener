@@ -4,6 +4,7 @@ import { PitchArray } from '../../utils/pitchArray';
 import { usePiano } from '../../hooks/usePiano';
 import { Piano } from '../../components/Piano';
 import { Frequency } from 'tone/build/esm/core/type/Units';
+import { MusicWave } from '../../components/MusicWave';
 
 export interface IChordExProps {
     placeholder?: undefined
@@ -23,7 +24,7 @@ const inversions: ChordArr = {
 
 export function ChordEx() {
     const [currentNote, setCurrentNote] = useState<string | undefined>('');
-    const [useInversions, setUseInversions] = useState(false)
+    const [useInversions, setUseInversions] = useState(false);
     const piano = usePiano();
 
     const arr = useMemo(() => new PitchArray(), []);
@@ -31,37 +32,30 @@ export function ChordEx() {
 
     // onClick, the next note value from our PitchArray is popped off
     const handleClick = (): void => {
-        if (arr.length === 0) {
-            arr.randomize();
-            // setNotes(arr)
-        }
-        // setNotes(arr)
         const curr = arr.nextNote();
-        playSound(curr)
+        playSound(curr);
         setCurrentNote(curr);
     }
 
     function playSound(note?:string) {
         // setDisableBtn(false)
         // setTimeout(setTotalQs(prev => (prev + 1)), 300);
-        if (Tone.context.state !== "running"){
-            Tone.start()
+        if (Tone.context.state !== "running") {
+            Tone.start();
         };
         let chord = getRandomChord(note)
         // chords[chordQuality]
-        console.log(chord.note, chord.chordQuality)
-        piano.triggerAttackRelease(chord.currentChord as Frequency[], '4n')
+        console.log(chord.note, chord.chordQuality);
+        piano.triggerAttackRelease(chord.currentChord as Frequency[], '4n');
 
         // setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
-        
-        console.log(Tone.context.state)
     }
 
     function randNum(num:number) {
         return Math.floor(Math.random()*num)
     }
 
-    function getRandomChord(note?:string) {
+    function getRandomChord(note?:string): ChordObj {
 
         const chords: ChordArr = {
             major: Tone.Frequency(`${note}3`).harmonize(useInversions ? inversions.major[randNum(3)] : [0, 4, 7]),
@@ -76,19 +70,18 @@ export function ChordEx() {
         }
         const chordsKeys = Object.keys(chords) as string[]
         const chordQuality = chordsKeys[Math.floor(Math.random() * chordsKeys.length)]
-        const randomChord = {currentChord: chords[chordQuality as keyof typeof chords], chordQuality: chordQuality, note: note}
-        return randomChord;
+        return {
+            currentChord: chords[chordQuality as keyof typeof chords],
+            chordQuality: chordQuality, 
+            note: note
+            };
     }
-
-
-
-
 
 
     return (
         <div> {currentNote}<br />
-        <button onClick={() => setUseInversions(!useInversions)}>use inversions?</button>
             {arr.length}
+            <MusicWave/>
             <br />
             <button onClick={handleClick}>new note</button>
             <Piano/>

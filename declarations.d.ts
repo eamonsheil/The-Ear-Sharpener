@@ -10,8 +10,8 @@ type ChordArr = {
     half_diminished: number[][] | Tone.FrequencyClass<number>[]
 }
 
-const ChordObj: {
-    currentChord: any;
+type ChordObj = {
+    currentChord: Tone.FrequencyClass<number>[];
     chordQuality: string;
     note: string | undefined;
 }
