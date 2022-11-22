@@ -3,6 +3,7 @@ import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
 import { usePiano } from '../../hooks/usePiano';
 import { Piano } from '../../components/Piano';
+import { Frequency } from 'tone/build/esm/core/type/Units';
 
 export interface IChordExProps {
     placeholder?: undefined
@@ -43,11 +44,13 @@ export function ChordEx() {
     function playSound(note?:string) {
         // setDisableBtn(false)
         // setTimeout(setTotalQs(prev => (prev + 1)), 300);
-        Tone.start()
+        if (Tone.context.state !== "running"){
+            Tone.start()
+        };
         let chord = getRandomChord(note)
         // chords[chordQuality]
         console.log(chord.note, chord.chordQuality)
-        piano.triggerAttackRelease(chord.currentChord, '4n')
+        piano.triggerAttackRelease(chord.currentChord as Frequency[], '4n')
 
         // setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
         
@@ -73,7 +76,7 @@ export function ChordEx() {
         }
         const chordsKeys = Object.keys(chords) as string[]
         const chordQuality = chordsKeys[Math.floor(Math.random() * chordsKeys.length)]
-        let randomChord = {currentChord: chords[chordQuality], chordQuality: chordQuality, note: note}
+        const randomChord = {currentChord: chords[chordQuality as keyof typeof chords], chordQuality: chordQuality, note: note}
         return randomChord;
     }
 

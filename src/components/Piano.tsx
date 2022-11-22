@@ -12,9 +12,10 @@ export function Piano() {
     const piano = usePiano()
     function handleClick(e:any) {
         let { target } = e;
-        Tone.start()
+        if (Tone.context.state !== "running"){
+            Tone.start()
+        }
         console.log(target.className.baseVal)
-        // target = target as SVGPathElement    
         // target.setAttribute('class', 'key-selected');
         // e.target.removeAttribute('class', 'undefined');
         // const note = Tone.Frequency(e.target.id)
