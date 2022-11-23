@@ -14,11 +14,21 @@
     position: absolute;
     right: 4em;
 
-    min-width: 6em;
-    padding: 1em;
+    width: 10em;
+    padding: .5em;
 }
 
 .config-menu {
     border: 1px solid red;
-    height: 10em;
+    height: 30em;
+    width: 10em;
+    display: none;
+    flex-direction: column;
+    padding: .5em;
+}
+
+.menu-item {
+    border: 1px solid blue;
+    height: 3em;
+    width: inherit;
 }
