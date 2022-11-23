@@ -19,9 +19,6 @@ export function AnswerOptions ({handleAnswer, type}: IChordOptionsProps) {
   return (
     <div className='chord-options'>
       {type === "chord" ? mapData(chords) : mapData(notes)}
-         
-         
-        
     </div>
   );
 }

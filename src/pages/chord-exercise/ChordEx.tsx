@@ -4,7 +4,7 @@ import { PitchArray } from '../../utils/pitchArray';
 import { usePiano } from '../../hooks/usePiano';
 import { Piano } from '../../components/Piano';
 import { animate, MusicWave } from '../../components/MusicWave';
-import { AnswerOptions } from './AnswerOptions';
+import { AnswerOptions } from '../../components/AnswerOptions';
 import { Frequency } from 'tone';
 
 export interface IChordExProps {
@@ -155,12 +155,17 @@ export function ChordEx({run, setRun}: IChordExProps) {
     }
   }
 
+  function handleSVGClick() {
+    setRun(true);
+    piano.triggerAttackRelease(answer.chord, '4n');
+  }
+
   return (
     <div>
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>{currentNote}
       <br />
-      <MusicWave run={run} setRun={setRun}/>
+      <MusicWave run={run} setRun={setRun} handleClick={handleSVGClick}/>
       <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
       
       <br />

@@ -4,6 +4,7 @@ import './components.styles.css';
 export interface IMusicWaveProps {
   run:boolean;
   setRun: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClick: () => void;
 }
 
 export function animate(svg:SVGSVGElement) { 
@@ -41,12 +42,12 @@ export function animate(svg:SVGSVGElement) {
       if (i<=12) {
         loop()
       }
-    }, 50);
+    }, 45);
   }
   loop();
 }
 
-export function MusicWave({run, setRun}:IMusicWaveProps) {
+export function MusicWave({run, setRun, handleClick}:IMusicWaveProps) {
   const svg = useRef<SVGSVGElement>(null);
 
 if (run && svg.current) {
@@ -66,6 +67,7 @@ if (run && svg.current) {
       viewBox="0 0 208 80"
       xmlns="http://www.w3.org/2000/svg"
       ref={svg}
+      onClick={() => handleClick()}
     >
       <g
         style={{
