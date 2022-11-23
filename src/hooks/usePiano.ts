@@ -39,6 +39,7 @@ export function usePiano() {
         C8: 'C8.mp3',
       },
       baseUrl: 'https://tonejs.github.io/audio/salamander/',
+      onload: () => console.log("Samples Loaded!")
     }).toDestination();
   }, []);
 

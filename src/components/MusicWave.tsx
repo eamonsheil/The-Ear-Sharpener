@@ -1,4 +1,4 @@
-import {SetStateAction, useRef} from 'react';
+import { useRef} from 'react';
 import './components.styles.css';
 
 export interface IMusicWaveProps {
