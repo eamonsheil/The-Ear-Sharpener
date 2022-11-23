@@ -16,13 +16,12 @@ export function ExerciseConfig (props: IExerciseConfigProps) {
     
     <div className='config-container'>
         <button onClick={() => {
-            const menu = document.querySelector(".config-menu") as HTMLDivElement;
-            if (menu.style.display === "none") {
-              menu.style.display = "flex"
-            } else {
-              menu.style.display = "none"
-            }
-            console.log(menu.style)
+              const menu = document.querySelector(".config-menu") as HTMLDivElement;
+              if (menu.style.display === "none") {
+                menu.style.display = "flex"
+              } else {
+                menu.style.display = "none"
+              }
             }
           }>
             Toggle View Menu
