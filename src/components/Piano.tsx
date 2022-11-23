@@ -3,13 +3,12 @@ import * as Tone from 'tone';
 import { usePiano } from '../hooks/usePiano';
 
 export interface IPianoProps {
-  // handleClick(e)?: (e: SVGElement) => void
   selectNote?: () => void;
+  piano: Tone.Sampler;
 }
 
-export function Piano() {
-  // load piano samples
-  const piano = usePiano();
+export function Piano({piano}:IPianoProps) {
+
   function handleClick(e: any) {
     let { target } = e;
     if (Tone.context.state !== 'running') {

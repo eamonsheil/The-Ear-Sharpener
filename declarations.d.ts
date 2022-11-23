@@ -15,3 +15,11 @@ type ChordObj = {
   chordQuality: string;
   note: string | undefined;
 };
+
+
+type ExerciseConfig = {
+  ansOptions: string[];
+  isChromatic: boolean;
+  useInversions?: boolean;
+
+}

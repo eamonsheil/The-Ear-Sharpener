@@ -1,15 +1,13 @@
 import { useMemo, useState } from 'react';
 import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
-import { usePiano } from '../../hooks/usePiano';
-import { Piano } from '../../components/Piano';
-import { animate, MusicWave } from '../../components/MusicWave';
+import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
-import { Frequency } from 'tone';
 
 export interface IChordExProps {
   run:boolean;
   setRun: React.Dispatch<React.SetStateAction<boolean>>;
+  piano: Tone.Sampler;
 }
 
 const inversions: ChordArr = {
@@ -71,13 +69,13 @@ const scoreObj = {
   incorrect: 0
 }
 
-export function ChordEx({run, setRun}: IChordExProps) {
+export function ChordEx({run, setRun, piano}: IChordExProps) {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
   const [score, setScore] = useState(scoreObj);
 
-  const piano = usePiano();
+  // const piano = usePiano();
   const arr = useMemo(() => new PitchArray(), []);
 
   
@@ -86,20 +84,23 @@ export function ChordEx({run, setRun}: IChordExProps) {
 
 
   // onClick, the next note value from our PitchArray is popped off
-  const handleClick = (): void => {
+  const handleClick = async(): Promise<void> => {
     const curr = arr.nextNote();
-    playSound(curr);
     setCurrentNote(curr);
+    
+    
+    playSound(curr);
   };
-  function playSound(note?: string) {
+  async function playSound(note?: string) {
     // setDisableBtn(false)
     // setTimeout(setTotalQs(prev => (prev + 1)), 300);
     if (Tone.context.state !== 'running') {
-      Tone.start();
+      await Tone.start();
     }
     // trigger svg animation
     setRun(true);
-    let chord = getRandomChord(note);
+    const chord = getRandomChord(note);
+
     piano.triggerAttackRelease(chord.currentChord, '4n');
 
     setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
@@ -155,7 +156,11 @@ export function ChordEx({run, setRun}: IChordExProps) {
     }
   }
 
-  function handleSVGClick() {
+  async function handleSVGClick() {
+    if (Tone.context.state !== 'running') {
+      await Tone.start();
+    }
+
     setRun(true);
     piano.triggerAttackRelease(answer.chord, '4n');
   }
@@ -170,8 +175,6 @@ export function ChordEx({run, setRun}: IChordExProps) {
       
       <br />
       <button onClick={handleClick}>new note</button>
-
-      <Piano />
     </div>
   );
 }
