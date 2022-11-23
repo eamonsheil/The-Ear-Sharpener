@@ -8,3 +8,17 @@
 .active {
     fill: rgb(133, 163, 0);
 }
+
+.config-container {
+    border: 1px solid yellow;
+    position: absolute;
+    right: 4em;
+
+    min-width: 6em;
+    padding: 1em;
+}
+
+.config-menu {
+    border: 1px solid red;
+    height: 10em;
+}

@@ -11,6 +11,7 @@ const App = () => {
     // TODO :
     // this state variable may serve better as a useRef, the point is to call the annimate funnction from outside MusicWave
     const [run, setRun] = useState(false);
+    // const [showMenu, setShowMenu] = useState(false);
 
     const piano = usePiano();
    
@@ -30,8 +31,10 @@ const App = () => {
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/chord_practice" element={<ChordEx run={run} setRun={setRun} piano={piano}/>} />
-          <Route path="/pitch_practice" element={<PitchEx run={run} setRun={setRun} piano={piano}/>} />
+          <Route path="/chord_practice" element={<ChordEx run={run} setRun={setRun} piano={piano} />} />
+
+          {/* showMenu={showMenu} setShowMenu={setShowMenu}/ */}
+          <Route path="/pitch_practice" element={<PitchEx run={run} setRun={setRun} piano={piano} />} />
         </Routes>
       </BrowserRouter>
       <Piano piano={piano}/>

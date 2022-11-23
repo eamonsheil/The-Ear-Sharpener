@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
+import { ExerciseConfig } from '../../components/settingsMenu/ExerciseConfig';
 
 export interface IPitchExProps {
   run:boolean;
@@ -71,6 +72,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
 
   return (  
     <div>
+      <ExerciseConfig/>
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>
       <br />
