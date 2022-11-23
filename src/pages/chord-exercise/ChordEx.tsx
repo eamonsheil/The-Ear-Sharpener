@@ -3,8 +3,9 @@ import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
 import { usePiano } from '../../hooks/usePiano';
 import { Piano } from '../../components/Piano';
-import { Frequency } from 'tone/build/esm/core/type/Units';
-import { MusicWave } from '../../components/MusicWave';
+import { animate, MusicWave } from '../../components/MusicWave';
+import { ChordOptions } from './ChordOptions';
+import { Frequency } from 'tone';
 
 export interface IChordExProps {
   placeholder?: undefined;
@@ -54,32 +55,51 @@ const inversions: ChordArr = {
   ],
 };
 
+type AnswerObj = {
+  chord: typeof Frequency[], 
+  correctAns: string
+};
+const defaultObj = {
+  chord: [], 
+  correctAns: ''
+}
+
 export function ChordEx() {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
-  const piano = usePiano();
+  const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
 
+  // TODO :
+  // this state variable may serve better as a useRef, the point is to call the annimate funnction from outside MusicWave
+  const [run, setRun] = useState(false)
+  
+  const piano = usePiano();
   const arr = useMemo(() => new PitchArray(), []);
 
+
+
+
+
+  
   // onClick, the next note value from our PitchArray is popped off
   const handleClick = (): void => {
     const curr = arr.nextNote();
     playSound(curr);
     setCurrentNote(curr);
   };
-
   function playSound(note?: string) {
     // setDisableBtn(false)
     // setTimeout(setTotalQs(prev => (prev + 1)), 300);
     if (Tone.context.state !== 'running') {
       Tone.start();
     }
+    setRun(true);
     let chord = getRandomChord(note);
     // chords[chordQuality]
-    console.log(chord.note, chord.chordQuality);
-    piano.triggerAttackRelease(chord.currentChord as Frequency[], '4n');
+    // console.log(chord.note, chord.chordQuality);
+    piano.triggerAttackRelease(chord.currentChord, '4n');
 
-    // setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
+    setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
   }
 
   function randNum(num: number) {
@@ -114,6 +134,7 @@ export function ChordEx() {
     };
     const chordsKeys = Object.keys(chords) as string[];
     const chordQuality = chordsKeys[Math.floor(Math.random() * chordsKeys.length)];
+    
     return {
       currentChord: chords[chordQuality as keyof typeof chords],
       chordQuality: chordQuality,
@@ -121,15 +142,26 @@ export function ChordEx() {
     };
   }
 
+  function handleAnswer(chord: string) {
+    console.log(chord);
+    console.log(answer);
+    if (chord === answer.correctAns) {
+      alert("good Job!");
+    }
+
+  }
+
   return (
     <div>
-      {' '}
       {currentNote}
       <br />
       {arr.length}
-      <MusicWave />
+      <MusicWave run={run} setRun={setRun}/>
+      <ChordOptions handleAnswer={handleAnswer}/>
+      
       <br />
       <button onClick={handleClick}>new note</button>
+
       <Piano />
     </div>
   );
