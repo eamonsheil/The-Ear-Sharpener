@@ -1,3 +1,9 @@
+### The Ear Sharpener v2
+- featuring... pretty much everything it did before. but better!
+
+
+
+
 ## Introducing... The Ear Sharpener
 A MERN stack app built with then intention of helping musicians practice ear training exercises away from a piano.
 
@@ -35,5 +41,3 @@ Watch the demo [here](https://youtu.be/oA9t7GJMut4)
 - Database: MongoDB
 - Password hashing: BCrypt
 - User Session/login: JSON Web Token
-
-
