@@ -4,11 +4,12 @@ import { PitchArray } from '../../utils/pitchArray';
 import { usePiano } from '../../hooks/usePiano';
 import { Piano } from '../../components/Piano';
 import { animate, MusicWave } from '../../components/MusicWave';
-import { ChordOptions } from './ChordOptions';
+import { AnswerOptions } from './AnswerOptions';
 import { Frequency } from 'tone';
 
 export interface IChordExProps {
-  placeholder?: undefined;
+  run:boolean;
+  setRun: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const inversions: ChordArr = {
@@ -56,7 +57,7 @@ const inversions: ChordArr = {
 };
 
 type AnswerObj = {
-  chord: typeof Frequency[], 
+  chord: string[], 
   correctAns: string
 };
 const defaultObj = {
@@ -64,23 +65,26 @@ const defaultObj = {
   correctAns: ''
 }
 
-export function ChordEx() {
+const scoreObj = {
+  totalQs: 0,
+  correct: 0,
+  incorrect: 0
+}
+
+export function ChordEx({run, setRun}: IChordExProps) {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
+  const [score, setScore] = useState(scoreObj);
 
-  // TODO :
-  // this state variable may serve better as a useRef, the point is to call the annimate funnction from outside MusicWave
-  const [run, setRun] = useState(false)
-  
   const piano = usePiano();
   const arr = useMemo(() => new PitchArray(), []);
 
-
-
-
-
   
+  
+
+
+
   // onClick, the next note value from our PitchArray is popped off
   const handleClick = (): void => {
     const curr = arr.nextNote();
@@ -93,10 +97,9 @@ export function ChordEx() {
     if (Tone.context.state !== 'running') {
       Tone.start();
     }
+    // trigger svg animation
     setRun(true);
     let chord = getRandomChord(note);
-    // chords[chordQuality]
-    // console.log(chord.note, chord.chordQuality);
     piano.triggerAttackRelease(chord.currentChord, '4n');
 
     setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
@@ -143,21 +146,22 @@ export function ChordEx() {
   }
 
   function handleAnswer(chord: string) {
-    console.log(chord);
-    console.log(answer);
     if (chord === answer.correctAns) {
-      alert("good Job!");
+      setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
+      const curr = arr.nextNote();
+      playSound(curr);
+    } else {
+      setScore({...score, totalQs: score.totalQs + 1, incorrect: score.incorrect + 1});
     }
-
   }
 
   return (
     <div>
-      {currentNote}
+      <h4>Score:</h4>
+      <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>{currentNote}
       <br />
-      {arr.length}
       <MusicWave run={run} setRun={setRun}/>
-      <ChordOptions handleAnswer={handleAnswer}/>
+      <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
       
       <br />
       <button onClick={handleClick}>new note</button>
