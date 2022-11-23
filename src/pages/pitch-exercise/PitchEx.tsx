@@ -4,7 +4,7 @@ import { Piano } from '../../components/Piano';
 import { usePiano } from '../../hooks/usePiano';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
-import { AnswerOptions } from '../chord-exercise/AnswerOptions';
+import { AnswerOptions } from '../../components/AnswerOptions';
 
 export interface IPitchExProps {
   run:boolean;
@@ -26,8 +26,8 @@ export function PitchEx({run, setRun}:IPitchExProps) {
 
   function handleClick() {
     const curr = arr.nextNote();
-    console.log(arr.data,arr.length)
-    console.log(curr);
+    // console.log(arr.data,arr.length)
+    // console.log(curr);
 
     playSound(curr)
   }
@@ -43,16 +43,17 @@ export function PitchEx({run, setRun}:IPitchExProps) {
     if (!note) {
       return
     }
-    setAnswer(note)
+    const ans = `${note + randNum(5)}`
+    setAnswer(ans)
     // trigger svg animation
     setRun(true);
     
-    piano.triggerAttackRelease(`${note + randNum(5)}`, '4n');
+    piano.triggerAttackRelease(ans, '4n');
   }
 
 
   function handleAnswer(pitch: string) {
-    if (pitch === answer) {
+    if (pitch === answer.slice(0, -1)) {
       setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
       const curr = arr.nextNote();
       playSound(curr);
@@ -61,12 +62,17 @@ export function PitchEx({run, setRun}:IPitchExProps) {
     }
   }
 
+  function handleSVGClick() {
+    setRun(true);
+    piano.triggerAttackRelease(answer, '4n');
+  }
+
   return (  
     <div>
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>
       <br />
-      <MusicWave run={run} setRun={setRun}/>
+      <MusicWave run={run} setRun={setRun} handleClick={handleSVGClick}/>
       <button onClick={() => handleClick()}>next Note</button>
       <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
       <Piano />
