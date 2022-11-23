@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { ConfigMenu } from './ConfigMenu';
+import { MenuItem } from './MenuItem';
 
 export interface IExerciseConfigProps {
     configObj?:ExerciseConfig;
@@ -12,21 +12,33 @@ const defConfig:ExerciseConfig = {
   }
 
 export function ExerciseConfig (props: IExerciseConfigProps) {
+  const menu = useRef<HTMLDivElement>(null)
   return (
-    
     <div className='config-container'>
         <button onClick={() => {
-              const menu = document.querySelector(".config-menu") as HTMLDivElement;
-              if (menu.style.display === "none") {
-                menu.style.display = "flex"
-              } else {
-                menu.style.display = "none"
-              }
+            if (!menu.current) {
+              return;
             }
+              // makes config-menu visible depending on the current 'display' prop 
+            if (!menu.current.style.display) {
+              menu.current.style.display = "flex";
+            } else {
+              menu.current.style.display = ""
+            }
+            }          
           }>
             Toggle View Menu
         </button>
-        <ConfigMenu/>
+
+        <div className='config-menu' ref={menu}>
+          <MenuItem/>
+          <MenuItem/>
+          <MenuItem/>
+          <MenuItem/>
+          <MenuItem/>
+          <MenuItem/>
+        </div>
+        
     </div>
   );
 }

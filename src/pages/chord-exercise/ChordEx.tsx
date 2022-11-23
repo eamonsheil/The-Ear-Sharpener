@@ -3,6 +3,7 @@ import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
+import { ExerciseConfig } from '../../components/settingsMenu/ExerciseConfig';
 
 export interface IChordExProps {
   run:boolean;
@@ -167,6 +168,7 @@ export function ChordEx({run, setRun, piano}: IChordExProps) {
 
   return (
     <div>
+      <ExerciseConfig/>
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>{currentNote}
       <br />

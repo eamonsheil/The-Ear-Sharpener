@@ -19,7 +19,7 @@ const scoreObj = {
 
 export function PitchEx({run, setRun, piano}:IPitchExProps) {
   const [score, setScore] = useState(scoreObj);
-  const [answer, setAnswer] = useState('');
+  const [answer, setAnswer] = useState('C4');
 
   // const piano = usePiano();
   const arr = useMemo(() => new PitchArray(), []);
