@@ -4,31 +4,49 @@
     px dotted green;
     width: auto;
 }
+.wave-svg:hover {
+    filter: drop-shadow(0px 0px 1px #111111)
+}
 
 .active {
     fill: rgb(133, 163, 0);
 }
 
 .config-container {
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
     position: absolute;
     right: 4em;
 
+    display: flex;
+    flex-direction: column;
     width: 10em;
     padding: .5em;
 }
 
 .config-menu {
-    border: 1px solid red;
-    height: 30em;
-    width: 10em;
+    border-radius: .5em;
+    border: 1px solid #1e1e1e;
+    box-shadow: 0px 0px 3px #1f1f1f;
+    max-height: 25em;
+    min-height: 20em;
+    overflow: scroll;
+    width: 60vw;
+    padding: 0 0 1em 0;
     display: none;
     flex-direction: column;
-    padding: .5em;
+    justify-content: space-evenly;
+
+    background-color: #202020;
+    align-self: flex-end;
+
 }
 
 .menu-item {
+    position:relative;
+    border-radius: .5em;
     border: 1px solid blue;
-    height: 3em;
-    width: inherit;
+    /* min-height: 3em; */
+    height: 4em;
+    /* width: inherit; */
+    margin: 1em .5em;
 }

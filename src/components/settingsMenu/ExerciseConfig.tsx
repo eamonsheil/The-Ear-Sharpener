@@ -36,7 +36,6 @@ export function ExerciseConfig (props: IExerciseConfigProps) {
           <MenuItem/>
           <MenuItem/>
           <MenuItem/>
-          <MenuItem/>
         </div>
         
     </div>
