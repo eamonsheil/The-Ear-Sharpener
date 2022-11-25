@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import * as Tone from 'tone';
 
-export function usePiano() {
+export function usePiano(setPageLoading: React.Dispatch<React.SetStateAction<boolean>>) {
   const piano = useMemo(() => {
     return new Tone.Sampler({
       // mapping note pitches from 'baseUrl',
@@ -39,7 +39,7 @@ export function usePiano() {
         C8: 'C8.mp3',
       },
       baseUrl: 'https://tonejs.github.io/audio/salamander/',
-      onload: () => console.log("Samples Loaded!")
+      onload: () => setTimeout(() => setPageLoading(false), 1000)
     }).toDestination();
   }, []);
 

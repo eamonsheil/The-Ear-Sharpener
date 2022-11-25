@@ -8,11 +8,13 @@ export class PitchArray {
   private notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
   public data: string[];
   public length: number;
+  public currNote: string;
 
   // this.data is populated with chromatic scale
   constructor() {
     this.data = [];
     this.length = this.data.length;
+    this.currNote = '';
   }
 
   public randomize(notes: string[] = this.notes): string[] {

@@ -13,7 +13,7 @@ export function AnswerOptions ({handleAnswer, type}: IChordOptionsProps) {
 
     const mapData = (data: string[]) => {
       return data.map(el => {
-        return <button onClick={(e) => handleAnswer(el)}>{el}</button>
+        return <button onClick={() => handleAnswer(el)}>{el}</button>
         })
     }
   return (

@@ -24,26 +24,26 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
   // const piano = usePiano();
   const arr = useMemo(() => new PitchArray(), []);
 
-  async function handleClick() {
-    const curr = arr.nextNote();
-    // console.log(arr.data,arr.length)
-    // console.log(curr);
-    if (Tone.context.state !== 'running') {
-      await Tone.start();
-    }
-    playSound(curr)
-  }
 
+   
+
+  // random number between 2 and 'num' - returned as a string
   function randNum(num: number): string {
     return Math.floor(Math.random() * num + 2).toString();
   }
   
-  function playSound(note?: string) {
-    
-    if (!note) {
-      return
+  // "Next Note" event handler function
+  // gets the next note from NoteArray, passes it
+  // sets answer, and calls triggerAttackRelease method
+  async function playSound(note?: string) {
+    // if (!note) {
+    //   return
+    // }
+    // const curr = arr.nextNote();
+    if (Tone.context.state !== 'running') {
+      await Tone.start();
     }
-    const ans = `${note + randNum(5)}`
+    const ans = `${arr.nextNote() + randNum(5)}`
     setAnswer(ans)
     // trigger svg animation
     setRun(true);
@@ -52,6 +52,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
   }
 
 
+  // checks user selection against the answer state object, updates score state object
   function handleAnswer(pitch: string) {
     if (pitch === answer.slice(0, -1)) {
       setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
@@ -62,6 +63,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
     }
   }
 
+  // runs MusicWave animation, and plays the 'currNote', if there is one
   async function handleSVGClick() {
     if (Tone.context.state !== 'running') {
       await Tone.start();
@@ -77,7 +79,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>
       <br />
       <MusicWave run={run} setRun={setRun} handleClick={handleSVGClick}/>
-      <button onClick={() => handleClick()}>Next Note</button>
+      <button onClick={() => playSound()}>Next Note</button>
       <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
     </div>
     );
