@@ -4,6 +4,9 @@ import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/settingsMenu/ExerciseConfig';
+import "./chordEx.styles.css"
+
+
 
 export interface IChordExProps {
   run:boolean;

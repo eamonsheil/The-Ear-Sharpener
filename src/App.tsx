@@ -11,12 +11,19 @@ const App = () => {
     // TODO :
     // this state variable may serve better as a useRef, the point is to call the animate function from outside MusicWave
     const [run, setRun] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
     // const [showMenu, setShowMenu] = useState(false);
 
-    const piano = usePiano();
+    const piano = usePiano(setPageLoading);
+
    
   return (
     <div className="app">
+      {pageLoading ? <div className='loadingSamples'>
+        Loading Piano sounds...
+
+      </div>: null}
+
       <BrowserRouter>
         <nav className="navbar">
           <Link className="nav-link" to="/">

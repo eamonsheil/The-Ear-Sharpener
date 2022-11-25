@@ -40,3 +40,12 @@
 .mainContent {
   min-height:90vh;
 }
+
+.loadingSamples {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(255, 0, 0, 0.168);
+  height: 100vh;
+  width: 100vw;
+}
