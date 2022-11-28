@@ -1,14 +1,57 @@
-.exercise-links-container {
+.titleFlag {
+    height: 10em;
     justify-content: center;
-    border: 1px solid red;
+}
+.appTitle {
+    position: absolute;
+    color: rgb(255, 255, 255);
+    text-shadow: -1px 2px 6px black;
+}
+
+
+.trebleClef-svg {
+    height: 10em;
+    border-radius: .5em;
+    stroke:transparent;
+    position: absolute;
+    box-shadow: 1px 1px 5px black;
+}
+
+
+.exercise-links-container {
+    height: 30em;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
 
 }
 
 .chord-link {
-    
+    /* border: 1px solid red; */
+    background-color: #1a1a1a;
+    margin: 0 1em;
+    border-radius: .5em;
+    height: 25em;
+    width: 22em;
+    justify-content: center;
+    align-items: center;
+}
+.chord-link:hover {
+    box-shadow: 0px 0px 5px #111111;
 }
 
 
 .pitch-link {
+    /* border: 1px solid purple; */
+    background-color: #1a1a1a;
+    margin: 0 1em;
+    border-radius: .5em;
+    height: 25em;
+    width: 22em;
+    justify-content: center;
+    align-items: center;
+}
 
+.pitch-link:hover {
+    box-shadow: 0px 0px 5px #111111;
 }
