@@ -1,13 +1,16 @@
-### The Ear Sharpener v2
-- featuring... pretty much everything it did before. but better!
+## The Ear Sharpener v2
+- **this application is currently being rebuilt with to optimize performance and memory use**
+
+Updates in v2:
+
+- AnswerOptions.tsx, settingsMenu are now re-useable configurable components, for future scalability purposes
+- chords and pitches are now recieved from instances of pitchArr, which is a randomly sorted array of pitches/chord qualities in which each value is repeated between 1 and 3 times, to ensure that users will be tested on each possible answer a simimlar (and unpredictable) number of times
 
 
 
 
-## Introducing... The Ear Sharpener
+### Introducing... The Ear Sharpener
 A MERN stack app built with then intention of helping musicians practice ear training exercises away from a piano.
-
-Watch the demo [here](https://youtu.be/oA9t7GJMut4)
 
 - An app designed for musicians to practice chord and pitch recognition.
 

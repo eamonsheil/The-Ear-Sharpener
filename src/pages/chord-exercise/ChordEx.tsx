@@ -90,15 +90,14 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
 
   // onClick, the next note value from our PitchArray is popped off
-  const handleClick = async(): Promise<void> => {
+  const handleClick = () => {
     const curr = pitchArr.nextNote();
     setCurrentNote(curr);
-    
-    
     playSound(curr);
   };
+
   async function playSound(note?: string) {
-    // setDisableBtn(false)
+    
     // setTimeout(setTotalQs(prev => (prev + 1)), 300);
     if (Tone.context.state !== 'running') {
       await Tone.start();
@@ -185,7 +184,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
       <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
       
       <br />
-      <button onClick={handleClick}>new note</button>
+      <button onClick={handleClick}>Begin</button>
     </div>
   );
 }
