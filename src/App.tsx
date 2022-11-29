@@ -2,10 +2,11 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/home/Home';
 import { ChordEx } from './pages/chord-exercise/ChordEx';
 import { PitchEx } from './pages/pitch-exercise/PitchEx';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import './styles.css';
 import { usePiano } from './hooks/usePiano';
 import { Piano } from './components/Piano';
+import { PitchArray } from './utils/pitchArray';
 
 const App = () => {
     // TODO :
@@ -13,7 +14,9 @@ const App = () => {
     const [run, setRun] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
     // const [showMenu, setShowMenu] = useState(false);
-
+    const pitchArr = useMemo(() => new PitchArray(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']), []);
+    
+  
     const piano = usePiano(setPageLoading);
 
    
@@ -39,7 +42,7 @@ const App = () => {
         <section className='mainContent'>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/chord_practice" element={<ChordEx run={run} setRun={setRun} piano={piano} />} />
+            <Route path="/chord_practice" element={<ChordEx run={run} setRun={setRun} piano={piano} pitchArr={pitchArr}/>} />
             <Route path="/pitch_practice" element={<PitchEx run={run} setRun={setRun} piano={piano} />} />
           </Routes>
         </section>

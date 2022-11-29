@@ -12,6 +12,7 @@ export interface IChordExProps {
   run:boolean;
   setRun: React.Dispatch<React.SetStateAction<boolean>>;
   piano: Tone.Sampler;
+  pitchArr: PitchArray
 }
 
 const inversions: ChordArr = {
@@ -73,14 +74,15 @@ const scoreObj = {
   incorrect: 0
 }
 
-export function ChordEx({run, setRun, piano}: IChordExProps) {
+export function ChordEx({run, setRun, piano, pitchArr}: IChordExProps) {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
   const [score, setScore] = useState(scoreObj);
 
   // const piano = usePiano();
-  const arr = useMemo(() => new PitchArray(), []);
+  const chordArr = useMemo(() => new PitchArray(["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"]), []);
+  // const arr = useMemo(() => new PitchArray(), []);
 
   
   
@@ -89,7 +91,7 @@ export function ChordEx({run, setRun, piano}: IChordExProps) {
 
   // onClick, the next note value from our PitchArray is popped off
   const handleClick = async(): Promise<void> => {
-    const curr = arr.nextNote();
+    const curr = pitchArr.nextNote();
     setCurrentNote(curr);
     
     
@@ -153,7 +155,7 @@ export function ChordEx({run, setRun, piano}: IChordExProps) {
   function handleAnswer(chord: string) {
     if (chord === answer.correctAns) {
       setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
-      const curr = arr.nextNote();
+      const curr = pitchArr.nextNote();
       playSound(curr);
     } else {
       setScore({...score, totalQs: score.totalQs + 1, incorrect: score.incorrect + 1});
