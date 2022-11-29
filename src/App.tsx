@@ -11,7 +11,7 @@ import { PitchArray } from './utils/pitchArray';
 const App = () => {
     // TODO :
     // this state variable may serve better as a useRef, the point is to call the animate function from outside MusicWave
-    const [run, setRun] = useState(false);
+    const [runSVGWave, setRunSVGWave] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
     // const [showMenu, setShowMenu] = useState(false);
     const pitchArr = useMemo(() => new PitchArray(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']), []);
@@ -42,8 +42,8 @@ const App = () => {
         <section className='mainContent'>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/chord_practice" element={<ChordEx run={run} setRun={setRun} piano={piano} pitchArr={pitchArr}/>} />
-            <Route path="/pitch_practice" element={<PitchEx run={run} setRun={setRun} piano={piano} />} />
+            <Route path="/chord_practice" element={<ChordEx runSVGWave={runSVGWave} setRunSVGWave={setRunSVGWave} piano={piano} pitchArr={pitchArr}/>} />
+            <Route path="/pitch_practice" element={<PitchEx runSVGWave={runSVGWave} setRunSVGWave={setRunSVGWave} piano={piano} pitchArr={pitchArr}/>} />
           </Routes>
         </section>
       </BrowserRouter>

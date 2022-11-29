@@ -9,8 +9,8 @@ import "./chordEx.styles.css"
 
 
 export interface IChordExProps {
-  run:boolean;
-  setRun: React.Dispatch<React.SetStateAction<boolean>>;
+  runSVGWave:boolean;
+  setRunSVGWave: React.Dispatch<React.SetStateAction<boolean>>;
   piano: Tone.Sampler;
   pitchArr: PitchArray
 }
@@ -74,7 +74,7 @@ const scoreObj = {
   incorrect: 0
 }
 
-export function ChordEx({run, setRun, piano, pitchArr}: IChordExProps) {
+export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExProps) {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
@@ -104,19 +104,23 @@ export function ChordEx({run, setRun, piano, pitchArr}: IChordExProps) {
       await Tone.start();
     }
     // trigger svg animation
-    setRun(true);
+    setRunSVGWave(true);
+
+   
     const chord = getRandomChord(note);
 
     piano.triggerAttackRelease(chord.currentChord, '4n');
 
-    setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality })
+    setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality });
   }
 
   function randNum(num: number) {
     return Math.floor(Math.random() * num);
   }
 
+   // returns object containing chord data
   function getRandomChord(note?: string): ChordObj {
+
     const chords: ChordArr = {
       major: Tone.Frequency(`${note}3`).harmonize(
         useInversions ? inversions.major[randNum(3)] : [0, 4, 7],
@@ -142,12 +146,12 @@ export function ChordEx({run, setRun, piano, pitchArr}: IChordExProps) {
         useInversions ? inversions.half_diminished[randNum(4)] : [0, 3, 6, 10],
       ),
     };
-    const chordsKeys = Object.keys(chords) as string[];
-    const chordQuality = chordsKeys[Math.floor(Math.random() * chordsKeys.length)];
     
+    const nextChord = chordArr.nextNote();
+
     return {
-      currentChord: chords[chordQuality as keyof typeof chords],
-      chordQuality: chordQuality,
+      currentChord: chords[nextChord as keyof typeof chords],
+      chordQuality: nextChord as string,
       note: note,
     };
   }
@@ -167,7 +171,7 @@ export function ChordEx({run, setRun, piano, pitchArr}: IChordExProps) {
       await Tone.start();
     }
 
-    setRun(true);
+    setRunSVGWave(true);
     piano.triggerAttackRelease(answer.chord, '4n');
   }
 
@@ -177,7 +181,7 @@ export function ChordEx({run, setRun, piano, pitchArr}: IChordExProps) {
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>{currentNote}
       <br />
-      <MusicWave run={run} setRun={setRun} handleClick={handleSVGClick}/>
+      <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
       <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
       
       <br />

@@ -6,9 +6,10 @@ import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/settingsMenu/ExerciseConfig';
 
 export interface IPitchExProps {
-  run:boolean;
-  setRun: React.Dispatch<React.SetStateAction<boolean>>;
+  runSVGWave:boolean;
+  setRunSVGWave: React.Dispatch<React.SetStateAction<boolean>>;
   piano: Tone.Sampler;
+  pitchArr:PitchArray
 }
 
 const scoreObj = {
@@ -17,12 +18,12 @@ const scoreObj = {
   incorrect: 0
 }
 
-export function PitchEx({run, setRun, piano}:IPitchExProps) {
+export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExProps) {
   const [score, setScore] = useState(scoreObj);
   const [answer, setAnswer] = useState('C4');
 
   // const piano = usePiano();
-  const arr = useMemo(() => new PitchArray(), []);
+  // const arr = useMemo(() => new PitchArray(), []);
 
 
    
@@ -43,10 +44,10 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
     if (Tone.context.state !== 'running') {
       await Tone.start();
     }
-    const ans = `${arr.nextNote() + randNum(5)}`
+    const ans = `${pitchArr.nextNote() + randNum(5)}`
     setAnswer(ans)
     // trigger svg animation
-    setRun(true);
+    setRunSVGWave(true);
     
     piano.triggerAttackRelease(ans, '4n');
   }
@@ -56,7 +57,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
   function handleAnswer(pitch: string) {
     if (pitch === answer.slice(0, -1)) {
       setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
-      const curr = arr.nextNote();
+      const curr = pitchArr.nextNote();
       playSound(curr);
     } else {
       setScore({...score, totalQs: score.totalQs + 1, incorrect: score.incorrect + 1});
@@ -68,7 +69,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
     if (Tone.context.state !== 'running') {
       await Tone.start();
     }
-    setRun(true);
+    setRunSVGWave(true);
     piano.triggerAttackRelease(answer, '4n');
   }
 
@@ -78,7 +79,7 @@ export function PitchEx({run, setRun, piano}:IPitchExProps) {
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>
       <br />
-      <MusicWave run={run} setRun={setRun} handleClick={handleSVGClick}/>
+      <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
       <button onClick={() => playSound()}>Next Note</button>
       <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
     </div>

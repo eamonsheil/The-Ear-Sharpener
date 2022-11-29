@@ -6,24 +6,26 @@
 // when the length is equal to zero, a new set of notes is added to the array
 export class PitchArray {
   // private notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+  // private chords = ["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"]
   private notes: string[];
   public data: string[];
   public length: number;
-  public currNote: string;
+  public curr: string;
 
   // this.data is populated with chromatic scale
   constructor(initData: string[]) {
     this.data = [...initData];
     this.notes = [...initData];
     this.length = this.data.length;
-    this.currNote = '';
+    this.curr = '';
+    this.randomize()
   }
 
-  public randomize(notes: string[] = this.notes): string[] {
+  public randomize(): string[] {
     // notes = [...this.data];
 
     // creating a new array such that each note appears between 1 and 3 times in the array
-    const newNotes = notes
+    const newNotes = this.notes
       .map((note) => {
         return new Array(Math.floor(Math.random() * 3) + 1).fill(note);
       })
@@ -55,6 +57,7 @@ export class PitchArray {
     }
 
     const curr = this.data.pop();
+    this.curr = curr as string;
     this.length--;
     return curr;
   }
