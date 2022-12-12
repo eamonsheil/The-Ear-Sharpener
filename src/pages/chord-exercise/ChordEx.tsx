@@ -73,16 +73,22 @@ const scoreObj = {
   correct: 0,
   incorrect: 0
 }
+const defChordSettings = {
+  useInversions: false,
+  noteDuration: '4n',
+  ansOptions: ["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"],
+  isChromatic: false
+}
 
 export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExProps) {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
   const [score, setScore] = useState(scoreObj);
+  const [settingsConfig, setSettingsConfig] = useState(defChordSettings)
 
-  // const piano = usePiano();
-  const chordArr = useMemo(() => new PitchArray(["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"]), []);
-  // const arr = useMemo(() => new PitchArray(), []);
+  const chordArr = useMemo(() => new PitchArray(["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"]), [settingsConfig.ansOptions]);
+
 
   
   
@@ -119,7 +125,8 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
    // returns object containing chord data
   function getRandomChord(note?: string): ChordObj {
-
+    const nextChord = chordArr.nextNote();
+    
     const chords: ChordArr = {
       major: Tone.Frequency(`${note}3`).harmonize(
         useInversions ? inversions.major[randNum(3)] : [0, 4, 7],
@@ -145,8 +152,6 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         useInversions ? inversions.half_diminished[randNum(4)] : [0, 3, 6, 10],
       ),
     };
-    
-    const nextChord = chordArr.nextNote();
 
     return {
       currentChord: chords[nextChord as keyof typeof chords],
@@ -176,7 +181,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
   return (
     <div>
-      <ExerciseConfig/>
+      <ExerciseConfig configObj={settingsConfig}/>
       <h4>Score:</h4>
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>{currentNote}
       <br />
