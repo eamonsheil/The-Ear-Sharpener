@@ -1,5 +1,5 @@
 ## The Ear Sharpener v2
-- **this application is currently being rebuilt with to optimize performance and memory use**
+- **this application is currently being rebuilt to optimize performance and memory use**
 
 Updates in v2:
 
