@@ -80,8 +80,8 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>
       <br />
       <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
-      <button onClick={() => playSound()}>Next Note</button>
       <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
+      <button onClick={() => playSound()}>Begin</button>
     </div>
     );
 }

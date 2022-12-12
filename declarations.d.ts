@@ -18,8 +18,8 @@ type ChordObj = {
 
 
 type ExerciseConfig = {
-  ansOptions: string[];
+  ansOptions?: string[];
   isChromatic: boolean;
   useInversions?: boolean;
-
+  noteDuration: string
 }

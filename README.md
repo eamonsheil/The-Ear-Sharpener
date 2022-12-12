@@ -3,6 +3,7 @@
 
 Updates in v2:
 
+- entire codebase is being re-written in typescript
 - AnswerOptions.tsx, settingsMenu are now re-useable configurable components, for future scalability purposes
 - chords and pitches are now recieved from instances of pitchArr, which is a randomly sorted array of pitches/chord qualities in which each value is repeated between 1 and 3 times, to ensure that users will be tested on each possible answer a simimlar (and unpredictable) number of times
 
