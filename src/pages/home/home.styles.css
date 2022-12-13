@@ -1,6 +1,8 @@
 .titleFlag {
     height: 10em;
     justify-content: center;
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 .appTitle {
     position: absolute;
@@ -8,12 +10,20 @@
     text-shadow: -1px 2px 6px black;
 }
 
+@media (max-width: 600px) {
+    .appTitle {
+        font-size: 2.2em;
+        top: 3em;
+    }
+    
+}
+
 
 .trebleClef-svg {
     height: 10em;
     border-radius: .5em;
     stroke:transparent;
-    position: absolute;
+    /* position: absolute; */
     box-shadow: 1px 1px 5px black;
 }
 

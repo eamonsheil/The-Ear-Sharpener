@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { MenuItem } from './MenuItem';
+import '../components.styles.css';
 
 export interface IExerciseConfigProps {
     configObj?:ExerciseConfig;

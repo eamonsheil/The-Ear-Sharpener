@@ -74,14 +74,28 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   }
 
   return (  
-    <div>
-      <ExerciseConfig/>
-      <h4>Score:</h4>
-      <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>
-      <br />
-      <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
-      <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
-      <button onClick={() => playSound()}>Begin</button>
+    <div className="exercise-container">
+      <div className="exerciseScores">
+        <h4>Score:</h4>
+        <p>
+          Total Attempts: {score.totalQs} <br/> 
+          Correct: {score.correct} <br/>
+          Incorrect: {score.incorrect}
+        </p>
+      </div>
+      <div className="config">
+        <ExerciseConfig/>
+      </div>
+      <div className="wave">
+        <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
+      </div>
+            
+      <div className='answerOptions'>     
+        <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
+      </div>
+      <div className='start-game'>
+        <button onClick={() => playSound()}>Begin</button>
+      </div>
     </div>
-    );
+  );
 }

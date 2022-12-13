@@ -20,7 +20,7 @@ export function Piano({piano}:IPianoProps) {
   }
 
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 4346.4 524.22">
+    <svg className='piano' xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 4346.4 524.22">
       <g className="note piano" stroke="#000" transform="translate(-.156 -526.12)">
         <path
           className="note C1"

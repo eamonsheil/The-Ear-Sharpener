@@ -39,7 +39,10 @@ export function usePiano(setPageLoading: React.Dispatch<React.SetStateAction<boo
         C8: 'C8.mp3',
       },
       baseUrl: 'https://tonejs.github.io/audio/salamander/',
-      onload: () => setTimeout(() => setPageLoading(false), 100)
+      onload: () => {
+        // piano.triggerAttackRelease('C4', '2n')
+        setTimeout(() => setPageLoading(false), 100)
+      }
     }).toDestination();
   }, []);
 

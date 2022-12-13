@@ -180,16 +180,28 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   }
 
   return (
-    <div>
-      <ExerciseConfig configObj={settingsConfig}/>
-      <h4>Score:</h4>
-      <p>Total Attempts: {score.totalQs} <br/> Correct: {score.correct} <br/> Incorrect: {score.incorrect}</p>{currentNote}
-      <br />
-      <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
-      <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
+    <div className='exercise-container'>
+      <div className="exerciseScores">
+        <h4>Score:</h4>
+        <p>
+          Total Attempts: {score.totalQs} <br/> 
+          Correct: {score.correct} <br/> 
+          Incorrect: {score.incorrect}
+        </p>
+      </div>
+      <div className="config">
+        <ExerciseConfig configObj={settingsConfig}/>
+      </div>
+      <div className="wave">
+        <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
+      </div>
       
-      <br />
-      <button onClick={handleClick}>Begin</button>
+      <div className='answerOptions'>     
+        <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
+      </div>
+      <div className='start-game'>
+        <button onClick={handleClick}>Begin</button>
+      </div>
     </div>
   );
 }

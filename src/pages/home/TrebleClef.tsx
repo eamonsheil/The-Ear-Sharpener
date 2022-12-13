@@ -12,8 +12,8 @@ export function TrebleClef() {
         className="trebleClef-svg"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        width="161mm"
-        height="55mm"
+        // width="161mm"
+        // height="55mm"
         version="1.1"
         viewBox="0 0 210 55"
       >

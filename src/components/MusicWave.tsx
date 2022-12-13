@@ -20,7 +20,6 @@ if (run && svg.current) {
 }
   
   return (
-    <div>
     <svg
       className='wave-svg'
       max-width="210mm"
@@ -179,6 +178,5 @@ if (run && svg.current) {
         />
       </g>
     </svg>
-    </div>
   );
 }
