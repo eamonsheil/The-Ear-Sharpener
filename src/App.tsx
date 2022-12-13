@@ -9,8 +9,8 @@ import { useState, useMemo } from 'react';
 import './styles.css';
 import { usePiano } from './hooks/usePiano';
 import { PitchArray } from './utils/pitchArray';
-import { Register } from './pages/login/Register';
-import { Login } from './pages/login/Login';
+import { Register } from './pages/Login/Register';
+import { Login } from './pages/Login/Login';
 
 export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/'
 
