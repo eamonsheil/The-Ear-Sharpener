@@ -74,7 +74,6 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     // trigger svg animation
     setRunSVGWave(true);
 
-   
     const chord = getRandomChord(note);
 
     piano.triggerAttackRelease(chord.currentChord, '4n');
@@ -162,7 +161,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
             />
           <label htmlFor={chord}>{chord}</label>
         </div>
-      )
+      );
     });
 
 
