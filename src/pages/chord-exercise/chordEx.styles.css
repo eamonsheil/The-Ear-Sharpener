@@ -1,0 +1,10 @@
+/* ------- settings menu items ------- */
+.chordOptions {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 0 10%;
+    /* border: 1px solid red; */
+    height: 10em;
+}
+

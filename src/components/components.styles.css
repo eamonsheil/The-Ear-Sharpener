@@ -6,11 +6,9 @@
     border: 1px solid blue;
 }
 
-
 .wave-svg {
     height: 5em;
-    border: 2
-    px dotted green;
+    width: min-content;
 }
 .wave-svg:hover {
     filter: drop-shadow(0px 0px 1px #111111)
@@ -36,6 +34,7 @@
 }
 
 .config-menu {
+    position: relative;
     border-radius: .5em;
     border: 1px solid #1e1e1e;
     box-shadow: 0px 0px 3px #1f1f1f;

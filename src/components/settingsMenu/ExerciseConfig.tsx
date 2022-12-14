@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react';
-import { MenuItem } from './MenuItem';
+import { ReactNode, useRef, useState } from 'react';
 import '../components.styles.css';
 
 export interface IExerciseConfigProps {
-    configObj?:ExerciseConfig;
+    children: JSX.Element[] | JSX.Element;
+    resetConfig: () => void
 }
 
 const defConfig:ExerciseConfig = {
@@ -13,7 +13,7 @@ const defConfig:ExerciseConfig = {
     noteDuration: '4n'
   }
 
-export function ExerciseConfig ({configObj}: IExerciseConfigProps) {
+export function ExerciseConfig ({resetConfig, children}:IExerciseConfigProps) {
   const menu = useRef<HTMLDivElement>(null)
 
 
@@ -35,11 +35,8 @@ export function ExerciseConfig ({configObj}: IExerciseConfigProps) {
         </button>
 
         <div className='config-menu' ref={menu}>
-          <MenuItem/>
-          <MenuItem/>
-          <MenuItem/>
-          <MenuItem/>
-          <MenuItem/>
+          {children}
+          <button onClick={() => resetConfig()}>Reset Settings</button>
         </div>
         
     </div>

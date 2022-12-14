@@ -16,84 +16,47 @@ export interface IChordExProps {
 }
 
 const inversions: ChordArr = {
-  major: [
-    [0, 4, 7],
-    [0, 3, 8],
-    [0, 5, 9],
-  ],
-  minor: [
-    [0, 3, 7],
-    [0, 4, 9],
-    [0, 5, 8],
-  ],
+  major: [[0, 4, 7], [0, 3, 8], [0, 5, 9]],
+  minor: [[0, 3, 7], [0, 4, 9], [0, 5, 8]],
   augmented: [[0, 4, 8]],
-  diminished_triad: [
-    [0, 3, 6],
-    [0, 3, 9],
-    [0, 6, 9],
-  ],
-  major_7th: [
-    [0, 4, 7, 11],
-    [0, 3, 7, 8],
-    [0, 4, 5, 9],
-    [0, 1, 5, 8],
-  ],
-  dominant_7th: [
-    [0, 4, 7, 10],
-    [0, 3, 6, 8],
-    [0, 3, 5, 9],
-    [0, 2, 6, 9],
-  ],
-  minor_7th: [
-    [0, 3, 7, 10],
-    [0, 4, 7, 9],
-    [0, 3, 5, 8],
-    [0, 2, 5, 9],
-  ],
+  diminished_triad: [[0, 3, 6], [0, 3, 9], [0, 6, 9]],
+  major_7th: [[0, 4, 7, 11], [0, 3, 7, 8], [0, 4, 5, 9], [0, 1, 5, 8]],
+  dominant_7th: [[0, 4, 7, 10], [0, 3, 6, 8], [0, 3, 5, 9], [0, 2, 6, 9]],
+  minor_7th: [[0, 3, 7, 10], [0, 4, 7, 9], [0, 3, 5, 8], [0, 2, 5, 9]],
   diminished: [[0, 3, 6, 9]],
-  half_diminished: [
-    [0, 3, 6, 10],
-    [0, 3, 7, 9],
-    [0, 4, 6, 9],
-    [0, 2, 5, 8],
-  ],
+  half_diminished: [[0, 3, 6, 10], [0, 3, 7, 9], [0, 4, 6, 9], [0, 2, 5, 8]]
 };
 
 type AnswerObj = {
   chord: string[], 
   correctAns: string
 };
+
 const defaultObj = {
   chord: [], 
   correctAns: ''
-}
+};
 
 const scoreObj = {
   totalQs: 0,
   correct: 0,
   incorrect: 0
-}
+};
 const defChordSettings = {
   useInversions: false,
   noteDuration: '4n',
   ansOptions: ["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"],
   isChromatic: false
-}
+};
 
 export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExProps) {
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
   const [score, setScore] = useState(scoreObj);
-  const [settingsConfig, setSettingsConfig] = useState(defChordSettings)
+  const [settingsConfig, setSettingsConfig] = useState(defChordSettings);
 
-  const chordArr = useMemo(() => new PitchArray(["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"]), [settingsConfig.ansOptions]);
-
-
-  
-  
-
-
+  const chordArr = useMemo(() => new PitchArray(settingsConfig.ansOptions), [settingsConfig.ansOptions]);
 
   // onClick, the next note value from our PitchArray is popped off
   const handleClick = () => {
@@ -179,6 +142,30 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     piano.triggerAttackRelease(answer.chord, '4n');
   }
 
+  function resetConfig() {
+    setSettingsConfig(defChordSettings);
+  }
+
+  const chordOptionsCheckboxes = defChordSettings.ansOptions
+    .map((chord) => {
+      const active = settingsConfig.ansOptions.indexOf(chord) != -1
+      return (
+        <div className='flex chordOption' key={chord}>
+          <input type="checkbox" name={chord} 
+            checked={active} 
+            onChange={() => setSettingsConfig({
+              ...settingsConfig,
+               ansOptions: active ? settingsConfig.ansOptions.filter(el => el != chord)
+                : [...settingsConfig.ansOptions, chord]
+              })
+            }
+            />
+          <label htmlFor={chord}>{chord}</label>
+        </div>
+      )
+    });
+
+
   return (
     <div className='exercise-container'>
       <div className="exerciseScores">
@@ -189,15 +176,28 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
           Incorrect: {score.incorrect}
         </p>
       </div>
+
       <div className="config">
-        <ExerciseConfig configObj={settingsConfig}/>
+
+        <ExerciseConfig resetConfig={resetConfig}>
+
+        <h4>Select chords to be tested on</h4>
+          <div className="flex chordOptions">
+            
+            {chordOptionsCheckboxes}
+          </div>
+
+        </ExerciseConfig>
+
       </div>
+
       <div className="wave">
         <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
       </div>
       
       <div className='answerOptions'>     
-        <AnswerOptions handleAnswer={handleAnswer} type="chord"/>
+        <AnswerOptions handleAnswer={handleAnswer} data={settingsConfig.ansOptions}/>
+
       </div>
       <div className='start-game'>
         <button onClick={handleClick}>Begin</button>

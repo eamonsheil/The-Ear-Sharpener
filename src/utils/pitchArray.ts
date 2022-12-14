@@ -5,29 +5,27 @@
 // use PitchArray.nextNote() to pop off the last value of the array
 // when the length is equal to zero, a new set of notes is added to the array
 export class PitchArray {
-  // private notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
-  // private chords = ["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"]
-  private notes: string[];
-  public data: string[];
+  readonly data: string[];
+  public arr: string[];
   public length: number;
   public curr: string;
 
-  // this.data is populated with chromatic scale
+  // this.arr is populated with chromatic scale
   constructor(initData: string[]) {
+    this.arr = [...initData];
     this.data = [...initData];
-    this.notes = [...initData];
-    this.length = this.data.length;
+    this.length = this.arr.length;
     this.curr = '';
-    this.randomize()
+    this.randomize();
   }
 
   public randomize(): string[] {
-    // notes = [...this.data];
+    // notes = [...this.arr];
 
     // creating a new array such that each note appears between 1 and 3 times in the array
-    const newNotes = this.notes
-      .map((note) => {
-        return new Array(Math.floor(Math.random() * 3) + 1).fill(note);
+    const newNotes = this.data
+      .map((val) => {
+        return new Array(Math.floor(Math.random() * 3) + 1).fill(val);
       })
       .flat();
 
@@ -44,19 +42,19 @@ export class PitchArray {
       newNotes[randIdx] = tmp;
     }
 
-    this.data = newNotes;
-    this.length = this.data.length;
-    return this.data;
+    this.arr = newNotes;
+    this.length = this.arr.length;
+    return this.arr;
   }
 
   // pops off the last value in our notes array.
-  // if there are no more values, this.data is repopulated via the randomize methed
+  // if there are no more values, this.arr is repopulated via the randomize methed
   public nextNote(): string | undefined {
     if (this.length === 0) {
       this.randomize();
     }
 
-    const curr = this.data.pop();
+    const curr = this.arr.pop();
     this.curr = curr as string;
     this.length--;
     return curr;

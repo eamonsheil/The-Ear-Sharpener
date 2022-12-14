@@ -13,19 +13,17 @@ import { Register } from './pages/Login/Register';
 import { Login } from './pages/Login/Login';
 
 export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/'
-
 // 'http://localhost:3000/'
-
-// 'https://expressjs-postgres-production-382e.up.railway.app/'
 
 const App = () => {
     // TODO :
     // this state variable may serve better as a useRef, the point is to call the animate function from outside MusicWave
     const [runSVGWave, setRunSVGWave] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
+    const [isChromatic, setIsChromatic] = useState(true);
 
     // const [showMenu, setShowMenu] = useState(false);
-    const pitchArr = useMemo(() => new PitchArray(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']), []);
+    const pitchArr = useMemo(() => new PitchArray(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'] ), []);
     
   
     const piano = usePiano(setPageLoading);

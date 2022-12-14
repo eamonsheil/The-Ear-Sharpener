@@ -18,15 +18,21 @@ const scoreObj = {
   incorrect: 0
 }
 
+const defPitchSettings = {
+  // should the establishing key be in c major, or any key
+  isChromatic: true,
+
+  // how long will the note play for
+  noteDuration: '4n',
+
+  // should a chord progression precede the note to establish a key
+  establishKey: true,
+}
+
 export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExProps) {
   const [score, setScore] = useState(scoreObj);
   const [answer, setAnswer] = useState('C4');
-
-  // const piano = usePiano();
-  // const arr = useMemo(() => new PitchArray(), []);
-
-
-   
+  const [settingsConfig, setSettingsConfig] = useState(defPitchSettings);
 
   // random number between 2 and 'num' - returned as a string
   function randNum(num: number): string {
@@ -37,13 +43,18 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   // gets the next note from NoteArray, passes it
   // sets answer, and calls triggerAttackRelease method
   async function playSound(note?: string) {
-    // if (!note) {
-    //   return
-    // }
-    // const curr = arr.nextNote();
     if (Tone.context.state !== 'running') {
       await Tone.start();
     }
+   
+    // if (settingsConfig.establishKey) {
+    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([0, 7, 12, 16]), '4n', "+.5")
+    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([5, 9, 12, 17]), '4n', "+1")
+    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([7, 11, 14, 19]), '4n', "+1.5")
+    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([-5, 5, 11, 17]), '4n', "+2")
+    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([0, 7, 12, 16]), '2n', "+2.5")
+    //   piano.triggerAttackRelease(Tone.Frequency(`${note}3`), "2n", "+3.7")
+    // }
     const ans = `${pitchArr.nextNote() + randNum(5)}`
     setAnswer(ans)
     // trigger svg animation
@@ -73,6 +84,10 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
     piano.triggerAttackRelease(answer, '4n');
   }
 
+  function resetConfig() {
+    setSettingsConfig(defPitchSettings);
+  }
+
   return (  
     <div className="exercise-container">
       <div className="exerciseScores">
@@ -84,14 +99,16 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         </p>
       </div>
       <div className="config">
-        <ExerciseConfig/>
+        <ExerciseConfig resetConfig={resetConfig}>
+
+        </ExerciseConfig>
       </div>
       <div className="wave">
         <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
       </div>
             
       <div className='answerOptions'>     
-        <AnswerOptions handleAnswer={handleAnswer} type="pitch"/>
+        <AnswerOptions handleAnswer={handleAnswer} data={pitchArr.data}/>
       </div>
       <div className='start-game'>
         <button onClick={() => playSound()}>Begin</button>
