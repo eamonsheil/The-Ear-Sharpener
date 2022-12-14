@@ -2,8 +2,13 @@ import { createContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { DATABASE_URL } from '../App';
 
+export type IUserContext = {
+    user:User | null,
+    setUser: React.Dispatch<React.SetStateAction<User | null>>,
+    handleLogout: () => void
+}
 
-export const UserContext = createContext(null);
+export const UserContext = createContext<IUserContext | null>(null);
 
 export interface IUserContextProps {
     children: JSX.Element;
