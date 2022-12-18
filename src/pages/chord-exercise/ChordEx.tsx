@@ -44,7 +44,7 @@ const scoreObj = {
 };
 const defChordSettings = {
   useInversions: false,
-  noteDuration: '4n',
+  noteDuration: '2n',
   ansOptions: ["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"],
   isChromatic: false
 };

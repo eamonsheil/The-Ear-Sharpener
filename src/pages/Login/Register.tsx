@@ -14,15 +14,21 @@ export function Register() {
 
   const onSubmit = (data: Record<string, any>) => {
     // console.log(data);
-    axios.post(DATABASE_URL + 'api/student/register', data)
+    axios.post(DATABASE_URL + 'api/student/register', data, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials:true
+    })
       .then(res => console.log(res))
-      .catch(({response}:AxiosError) => console.log("ERROR: ", response))
+      .catch((err:AxiosError) => console.log("ERROR: ", err))
     // navigate('/')    
   };
 
 
   return (
     <form className='flex registerForm' onSubmit={handleSubmit(onSubmit)}>
+      <h3>Create an account today to track your progress</h3>
       <div className="formField">
         <label htmlFor="name">Name </label>
         <input type='text' placeholder='name' 

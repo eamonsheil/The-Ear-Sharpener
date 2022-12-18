@@ -23,7 +23,7 @@ export function Login() {
 
   return (
     <form className='flex loginForm' onSubmit={handleSubmit(onSubmit)}>
-      
+      <h3>Login to continue your progress</h3>
       <div className="formField">
         <label htmlFor="email">Email </label>
         <input type='text' placeholder='email' 
