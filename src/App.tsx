@@ -5,21 +5,16 @@ import { Home } from './pages/home/Home';
 import { ChordEx } from './pages/chord-exercise/ChordEx';
 import { PitchEx } from './pages/pitch-exercise/PitchEx';
 import { Piano } from './components/Piano';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import './styles.css';
 import { usePiano } from './hooks/usePiano';
 import { PitchArray } from './utils/pitchArray';
 import { Register } from './pages/Login/Register';
 import { Login } from './pages/Login/Login';
 
-export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/';
-// 'http://localhost:3000/'
+export const DATABASE_URL = 'http://localhost:3000/'
 
-
-
-
-
-
+// 'https://expressjs-postgres-production-382e.up.railway.app/';
 
 const App = () => {
     // TODO :
@@ -34,6 +29,19 @@ const App = () => {
   
     const piano = usePiano(setPageLoading);
 
+
+    useEffect(() => {
+      fetch(DATABASE_URL + 'api/student/me', {
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+  
+      })
+      .then(res => res.json())
+      .then(data => console.log(data.rows[0]))
+    }, [])
    
   return (
     <div className="app">
@@ -64,7 +72,7 @@ const App = () => {
         </nav>
         <section className='mainContent'>
           <Routes>
-            <Route path='/login' element={<Login/>}/>
+            <Route path='/login' element={<Login />}/>
             <Route path='/register' element={<Register/>}/>
             <Route path="/" element={ <Home /> }/>
             <Route path="/chord_practice" 

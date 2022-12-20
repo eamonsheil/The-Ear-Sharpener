@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
-import axios, {AxiosError} from 'axios';
 import { DATABASE_URL } from '../../App';
 import './login.css'
 
@@ -12,11 +11,19 @@ export function Login() {
   const navigate = useNavigate()
   const { register,formState: { errors }, handleSubmit } = useForm();
 
-  const onSubmit = (data: Record<string, any>) => {
-    // console.log(data);
-    axios.post(DATABASE_URL + 'api/student/login', data)
-    .then(res => console.log(res))
-    .catch(({response}:AxiosError) => console.log("ERROR: ", response))
+  const onSubmit = async (data: Record<string, any>) => {
+    await fetch(DATABASE_URL + 'api/student/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
     // navigate('/')
   };
 
