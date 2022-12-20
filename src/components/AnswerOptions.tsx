@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './components.styles.css'
 
 export interface IChordOptionsProps {
   handleAnswer: Function
@@ -13,12 +14,12 @@ export function AnswerOptions ({handleAnswer, data}: IChordOptionsProps) {
 
     const mapData = ():JSX.Element[] => {
       return data.map(el => {
-        return <button key={el} onClick={() => handleAnswer(el)}>{el}</button>
+        return <button className='ansOption' key={el} onClick={() => handleAnswer(el)}>{el}</button>
         })
     }
   return (
-    <div className='chord-options'>
+    <>
       {mapData()}
-    </div>
+    </>
   );
 }

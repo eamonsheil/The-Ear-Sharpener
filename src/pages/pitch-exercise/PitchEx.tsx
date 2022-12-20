@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
-import { ExerciseConfig } from '../../components/settingsMenu/ExerciseConfig';
+import { ExerciseConfig } from '../../components/ExerciseConfig';
 
 export interface IPitchExProps {
   runSVGWave:boolean;
@@ -103,14 +103,14 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
 
         </ExerciseConfig>
       </div>
-      <div className="wave">
+      <div className="wave flex">
         <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
       </div>
             
       <div className='answerOptions'>     
         <AnswerOptions handleAnswer={handleAnswer} data={pitchArr.data}/>
       </div>
-      <div className='start-game'>
+      <div className='start-game flex'>
         <button onClick={() => playSound()}>Begin</button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { ReactNode, useRef, useState } from 'react';
-import '../components.styles.css';
+import './components.styles.css';
 
 export interface IExerciseConfigProps {
     children: JSX.Element[] | JSX.Element;

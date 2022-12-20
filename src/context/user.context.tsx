@@ -1,14 +1,5 @@
 import { createContext, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { DATABASE_URL } from '../App';
-
-export type IUserContext = {
-    user:User | null,
-    setUser: React.Dispatch<React.SetStateAction<User | null>>,
-    handleLogout: () => void
-}
-
-export const UserContext = createContext<IUserContext | null>(null);
 
 export interface IUserContextProps {
     children: JSX.Element;
@@ -22,20 +13,29 @@ export type User = {
     pitchScores?:[]
 }
 
+export type IUserContext = {
+    user:User | null,
+    setUser: React.Dispatch<React.SetStateAction<User | null>>,
+    handleLogout: () => void
+}
+
+export const UserContext = createContext<IUserContext | undefined>(undefined);
+
 export const UserContextProvider = ({children}:IUserContextProps) => {
     const [user, setUser] = useState<User | null>(null);
-    const navigate = useNavigate()
-    
 
-
-    const handleLogout = () => {
-        fetch(`${DATABASE_URL}/api/users/logout`)
+    const handleLogout = ():void => {
+        fetch(DATABASE_URL + "api/student/logout", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include'
+        })
         .then( res => res.json())
         .then( data => {
           console.log(data)
           setUser(null)})
-          localStorage.clear()
-          navigate('/');
       }
 
     const value = {

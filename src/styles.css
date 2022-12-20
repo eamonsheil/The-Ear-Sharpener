@@ -1,12 +1,18 @@
-
+.app {
+  margin: 0;
+  flex-direction: column;
+}
 .flex {
   display: flex;
 }
 
 .navbar {
+  position: relative;
   height: 10vh;
+  width: inherit;
   padding: 0 15em;
   background-color: #202020;
+  overflow: hidden;
 
   display: flex;
   
@@ -77,28 +83,46 @@
 .exercise-container {
   height: 80vh;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 33% 34% 33%;
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 }
-
+.gridDumbDiv1 {
+  grid-area: 1 / 1/ 2/2;
+  /* border: 1px solid yellow; */
+  
+}
 .exerciseScores {
   grid-area: 1 / 2 / 2 / 3;
+  /* border: 1px solid green */
 }
 
 .config {
   grid-area: 1 / 3 / 2 / 4;
+  /* border: 1px solid blue */
 }
 
 .wave {
   grid-area: 2 / 2 / 3 / 3;
+  /* border: 1px solid red; */
+  justify-content: center;
+  align-items: center;
 }
 
 .answerOptions {
   grid-area: 3 / 1 / 5 / 4;
+  display: grid;
+  /* place-items:center; */
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 2%;
+  /* border: 1px solid orange */
 }
 
 .start-game {
   grid-area: 5 / 2 / 6 / 3;
+  /* border: 1px solid purple; */
+  justify-content: center;
+  align-items: center;
 }

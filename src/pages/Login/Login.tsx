@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form'
+import { useContext } from 'react';
+import { UserContext } from '../../context/user.context';
 import { useNavigate } from 'react-router-dom';
 import { DATABASE_URL } from '../../App';
 import './login.css'
@@ -8,8 +10,9 @@ export interface ILoginProps {
 }
 
 export function Login() {
+  const userContext = useContext(UserContext);
   const navigate = useNavigate()
-  const { register,formState: { errors }, handleSubmit } = useForm();
+  const { register, setError, formState: { errors }, handleSubmit } = useForm();
 
   const onSubmit = async (data: Record<string, any>) => {
     await fetch(DATABASE_URL + 'api/student/login', {
@@ -21,9 +24,22 @@ export function Login() {
       credentials: 'include',
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(data => console.log(data.data))
-    .catch(err => console.log(err))
+    .then(res => {
+      if (res.status === 500) {
+        throw new Error(`Invalid Credentials`)
+      } else {
+      return res.json()
+      }
+    })
+    .then(data => 
+      userContext?.setUser(
+      {
+        id: data.id,
+        name: data.name,
+        email: data.email
+      }
+    ))
+    .catch(err => setError('password', {type:'validate', message: err}, {shouldFocus: true}))
     // navigate('/')
   };
 

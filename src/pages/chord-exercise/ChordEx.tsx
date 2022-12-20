@@ -3,7 +3,7 @@ import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
-import { ExerciseConfig } from '../../components/settingsMenu/ExerciseConfig';
+import { ExerciseConfig } from '../../components/ExerciseConfig';
 import "./chordEx.styles.css"
 
 
@@ -167,6 +167,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
   return (
     <div className='exercise-container'>
+      <div className='gridDumbDiv1'/>
       <div className="exerciseScores">
         <h4>Score:</h4>
         <p>
@@ -190,7 +191,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
       </div>
 
-      <div className="wave">
+      <div className="wave flex">
         <MusicWave run={runSVGWave} setRun={setRunSVGWave} handleClick={handleSVGClick}/>
       </div>
       
@@ -198,7 +199,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         <AnswerOptions handleAnswer={handleAnswer} data={settingsConfig.ansOptions}/>
 
       </div>
-      <div className='start-game'>
+      <div className='start-game flex'>
         <button onClick={handleClick}>Begin</button>
       </div>
     </div>

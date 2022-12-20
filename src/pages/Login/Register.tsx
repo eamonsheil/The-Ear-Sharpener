@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { DATABASE_URL } from '../../App';
+import { useContext } from 'react';
+import { UserContext } from '../../context/user.context';
 import './login.css';
 
 export interface ISignupProps {
@@ -8,6 +10,7 @@ export interface ISignupProps {
 }
 
 export function Register() {
+  const userContext = useContext(UserContext);
   const navigate = useNavigate()
   const { register, formState: { errors }, handleSubmit } = useForm();
 
@@ -23,7 +26,13 @@ export function Register() {
       credentials: 'include'
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => userContext?.setUser(
+      {
+        id: data.id,
+        name: data.name,
+        email: data.email
+      }
+    ))
     .catch(err => console.log(err))
     // navigate('/')    
   };
