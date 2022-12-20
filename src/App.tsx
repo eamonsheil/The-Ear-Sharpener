@@ -14,8 +14,9 @@ import { Login } from './pages/Login/Login';
 import { UserContext } from './context/user.context';
 
 
-export const DATABASE_URL = 'http://localhost:3000/'
-// 'https://expressjs-postgres-production-382e.up.railway.app/';
+export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/';
+// 'http://localhost:3000/'
+
 
 
 const App = () => {
