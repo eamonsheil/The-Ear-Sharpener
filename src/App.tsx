@@ -1,10 +1,8 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-// eslint-disable-next-line import/no-unresolved
-import { Analytics } from '@vercel/analytics/react'
 import { Home } from './pages/home/Home';
 import { ChordEx } from './pages/chord-exercise/ChordEx';
 import { PitchEx } from './pages/pitch-exercise/PitchEx';
-import { Piano } from './components/Piano';
+// import { Piano } from './components/Piano';
 import { useState, useMemo, useEffect, useContext } from 'react';
 import './styles.css';
 import { usePiano } from './hooks/usePiano';
@@ -92,7 +90,6 @@ const App = () => {
         </section>
       </BrowserRouter>
       {/* <Piano piano={piano}/> */}
-      <Analytics/>
     </div>
   );
 };
