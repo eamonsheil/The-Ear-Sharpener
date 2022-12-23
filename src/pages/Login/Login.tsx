@@ -24,23 +24,21 @@ export function Login() {
       credentials: 'include',
       body: JSON.stringify(data)
     })
-    .then(res => {
-      if (res.status === 500) {
-        throw new Error(`Invalid Credentials`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      if (!data['error']) {
+        userContext?.setUser({
+          id: data.id,
+          name: data.name,
+          email: data.email
+        })
+        navigate('/')
       } else {
-      return res.json()
+        setError('email', {type: 'string', message: data.error })
       }
     })
-    .then(data => 
-      userContext?.setUser(
-      {
-        id: data.id,
-        name: data.name,
-        email: data.email
-      }
-    ))
-    .catch(err => setError('password', {type:'validate', message: err}, {shouldFocus: true}))
-    // navigate('/')
+    .catch(err => console.log("ERROR: ", err))
   };
 
 
@@ -51,15 +49,14 @@ export function Login() {
         <label htmlFor="email">Email </label>
         <input type='text' placeholder='email' 
           {...register("email", {
-             required: "this field is required",
-             pattern: {
-              value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: "Invalid email address"
-             }
-            })} 
+            required: "this field is required",
+            pattern: {
+            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            message: "Invalid email address"
+            }
+          })} 
           />
       </div>
-      {errors.email && <p>{`${errors.email.message}`}</p>}
 
       <div className="formField">
         <label htmlFor="password">Password </label>
@@ -67,6 +64,8 @@ export function Login() {
       </div>
       
       <button type="submit">Submit</button>
+      {errors.email && <p>{`${errors.email.message}`}</p>}
     </form>
+
   );
 }

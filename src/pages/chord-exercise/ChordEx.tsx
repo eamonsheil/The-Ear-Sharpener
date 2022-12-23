@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import * as Tone from 'tone';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
 import "./chordEx.styles.css"
+import { DATABASE_URL } from '../../App';
+import { UserContext } from '../../context/user.context';
 
 
 
@@ -50,6 +52,10 @@ const defChordSettings = {
 };
 
 export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExProps) {
+  const userContext = useContext(UserContext);
+
+
+  const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
   const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
@@ -57,6 +63,22 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   const [settingsConfig, setSettingsConfig] = useState(defChordSettings);
 
   const chordArr = useMemo(() => new PitchArray(settingsConfig.ansOptions), [settingsConfig.ansOptions]);
+
+  useEffect(() => {
+    fetch(DATABASE_URL + `api/scores/chord`, {
+      method:'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      setChordScores(data.rows[0])})
+  },[])
+
 
   // onClick, the next note value from our PitchArray is popped off
   const handleClick = () => {
@@ -66,7 +88,6 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   };
 
   async function playSound(note?: string) {
-    
     // setTimeout(setTotalQs(prev => (prev + 1)), 300);
     if (Tone.context.state !== 'running') {
       await Tone.start();
@@ -169,12 +190,15 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     <div className='exercise-container'>
       <div className='gridDumbDiv1'/>
       <div className="exerciseScores">
-        <h4>Score:</h4>
-        <p>
-          Total Attempts: {score.totalQs} <br/> 
-          Correct: {score.correct} <br/> 
-          Incorrect: {score.incorrect}
-        </p>
+        { chordScores ? 
+        <>
+          <h4>Score:</h4>
+          <p>
+            Total Attempts: {score.totalQs} <br/> 
+            Correct: {score.correct} <br/> 
+            Incorrect: {score.incorrect}
+          </p>
+        </> : <div/>}
       </div>
 
       <div className="config">

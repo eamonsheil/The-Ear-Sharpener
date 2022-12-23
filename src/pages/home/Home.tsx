@@ -16,7 +16,7 @@ export function Home() {
         <TrebleClef/>
         <h1 className='appTitle'>The Ear Sharpener</h1>
       </div>
-      <p>Welcome back, {userContext?.user?.name}</p>
+      {userContext?.user ?<p>Welcome back, {userContext?.user?.name}</p>: null}
       <div className="flex exercise-links-container">
         <div className="flex chord-link">
           <Link to="./chord_practice" className="flex home-link">

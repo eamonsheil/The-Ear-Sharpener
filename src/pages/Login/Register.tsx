@@ -34,7 +34,7 @@ export function Register() {
       }
     ))
     .catch(err => console.log(err))
-    // navigate('/')    
+    navigate('/')    
   };
 
 

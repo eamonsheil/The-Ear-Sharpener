@@ -23,3 +23,10 @@ type ExerciseConfig = {
   useInversions?: boolean;
   noteDuration: string
 }
+
+type ScoresObj = {
+  current_streak: number;
+  num_correct: number;
+  num_incorrect: number;
+  total_attempts: number;
+}

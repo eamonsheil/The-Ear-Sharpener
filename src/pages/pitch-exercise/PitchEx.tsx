@@ -1,9 +1,10 @@
 import * as Tone from 'tone';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
+import { DATABASE_URL } from '../../App';
 
 export interface IPitchExProps {
   runSVGWave:boolean;
@@ -31,8 +32,25 @@ const defPitchSettings = {
 
 export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExProps) {
   const [score, setScore] = useState(scoreObj);
+  const [pitchScores, setPitchScores] = useState<ScoresObj | null>(null);
   const [answer, setAnswer] = useState('C4');
   const [settingsConfig, setSettingsConfig] = useState(defPitchSettings);
+
+  useEffect(() => {
+    fetch(DATABASE_URL + `api/scores/pitch`, {
+      method:'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      setPitchScores(data.rows[0])})
+  },[])
+
 
   // random number between 2 and 'num' - returned as a string
   function randNum(num: number): string {
@@ -91,12 +109,15 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   return (  
     <div className="exercise-container">
       <div className="exerciseScores">
-        <h4>Score:</h4>
-        <p>
-          Total Attempts: {score.totalQs} <br/> 
-          Correct: {score.correct} <br/>
-          Incorrect: {score.incorrect}
-        </p>
+      { pitchScores ? 
+        <>
+          <h4>Score:</h4>
+          <p>
+            Total Attempts: {score.totalQs} <br/> 
+            Correct: {score.correct} <br/> 
+            Incorrect: {score.incorrect}
+          </p>
+        </> : <div/>}
       </div>
       <div className="config">
         <ExerciseConfig resetConfig={resetConfig}>
