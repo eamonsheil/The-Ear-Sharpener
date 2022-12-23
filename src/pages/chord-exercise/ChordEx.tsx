@@ -56,7 +56,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
 
   const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
-  const [currentNote, setCurrentNote] = useState<string | undefined>('');
+  // const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
   const [score, setScore] = useState(scoreObj);
@@ -83,7 +83,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   // onClick, the next note value from our PitchArray is popped off
   const handleClick = () => {
     const curr = pitchArr.nextNote();
-    setCurrentNote(curr);
+    // setCurrentNote(curr);
     playSound(curr);
   };
 
@@ -143,14 +143,46 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     };
   }
 
-  function handleAnswer(chord: string) {
+
+  async function handleAnswer(chord: string) {
+    console.log(chord)
+    // contents of fetchConfig correspond to table columns, and will be added to the values stored in the tables
+    let fetchConfig:ScoresObj
     if (chord === answer.correctAns) {
-      setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
-      const curr = pitchArr.nextNote();
-      playSound(curr);
-    } else {
-      setScore({...score, totalQs: score.totalQs + 1, incorrect: score.incorrect + 1});
+      fetchConfig = {
+        total_attempts: 1,
+        num_correct: 1,
+        num_incorrect: 0,
+        current_streak: 1 
+      }
+      console.log('correct', fetchConfig)
+    } 
+    else {
+      fetchConfig = {
+        total_attempts: 1,
+        num_correct: 0,
+        num_incorrect: 1,
+        current_streak: 0
+      }      
+      console.log('incorrect', fetchConfig)
     }
+    await fetch(DATABASE_URL + "api/scores/chord", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(fetchConfig)
+    })
+    .then(res => res.json())
+    .then(data => setChordScores(data.rows[0]))
+    .then(() => {
+      if (chord === answer.correctAns) {
+      const curr = pitchArr.nextNote();
+      playSound(curr)
+    }
+    })
   }
 
   async function handleSVGClick() {
@@ -194,9 +226,10 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         <>
           <h4>Score:</h4>
           <p>
-            Total Attempts: {score.totalQs} <br/> 
-            Correct: {score.correct} <br/> 
-            Incorrect: {score.incorrect}
+            Total Attempts: {chordScores.total_attempts} <br/> 
+            Correct: {chordScores.num_correct} <br/> 
+            Incorrect: {chordScores.num_incorrect} <br />
+            Current Streak: {chordScores.current_streak}
           </p>
         </> : <div/>}
       </div>

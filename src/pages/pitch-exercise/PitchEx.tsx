@@ -83,14 +83,45 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
 
 
   // checks user selection against the answer state object, updates score state object
-  function handleAnswer(pitch: string) {
+  async function handleAnswer(pitch: string) {
+
+    let fetchConfig:ScoresObj
     if (pitch === answer.slice(0, -1)) {
-      setScore({...score, totalQs: score.totalQs + 1, correct: score.correct + 1});
-      const curr = pitchArr.nextNote();
-      playSound(curr);
-    } else {
-      setScore({...score, totalQs: score.totalQs + 1, incorrect: score.incorrect + 1});
+      fetchConfig = {
+        total_attempts: 1,
+        num_correct: 1,
+        num_incorrect: 0,
+        current_streak: 1 
+      }
+      console.log('correct', fetchConfig)
+    } 
+    else {
+      fetchConfig = {
+        total_attempts: 1,
+        num_correct: 0,
+        num_incorrect: 1,
+        current_streak: 0
+      }      
+      console.log('incorrect', fetchConfig)
     }
+    await fetch(DATABASE_URL + "api/scores/pitch", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(fetchConfig)
+    })
+    .then(res => res.json())
+
+    .then(data => setPitchScores(data.rows[0]))
+    .then(() => {
+      if (pitch === answer.slice(0, -1)) {
+      const curr = pitchArr.nextNote();
+      playSound(curr)
+      }
+    })
   }
 
   // runs MusicWave animation, and plays the 'currNote', if there is one
@@ -113,9 +144,10 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         <>
           <h4>Score:</h4>
           <p>
-            Total Attempts: {score.totalQs} <br/> 
-            Correct: {score.correct} <br/> 
-            Incorrect: {score.incorrect}
+            Total Attempts: {pitchScores.total_attempts} <br/> 
+            Correct: {pitchScores.num_correct} <br/> 
+            Incorrect: {pitchScores.num_incorrect} <br />
+            Current Streak: {pitchScores.current_streak}
           </p>
         </> : <div/>}
       </div>
