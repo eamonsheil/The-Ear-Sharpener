@@ -5,6 +5,7 @@ import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
 import { DATABASE_URL } from '../../App';
+import { Frequency, Interval } from 'tone/build/esm/core/type/Units';
 
 export interface IPitchExProps {
   runSVGWave:boolean;
@@ -56,29 +57,33 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   function randNum(num: number): string {
     return Math.floor(Math.random() * num + 2).toString();
   }
-  
   // "Next Note" event handler function
-  // gets the next note from NoteArray, passes it
-  // sets answer, and calls triggerAttackRelease method
-  async function playSound(note?: string) {
+  // gets the next note from NoteArray, sets answer, and plays a chord progression followed by a note
+
+  async function playSound() {
     if (Tone.context.state !== 'running') {
       await Tone.start();
     }
-   
-    // if (settingsConfig.establishKey) {
-    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([0, 7, 12, 16]), '4n', "+.5")
-    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([5, 9, 12, 17]), '4n', "+1")
-    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([7, 11, 14, 19]), '4n', "+1.5")
-    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([-5, 5, 11, 17]), '4n', "+2")
-    //   piano.triggerAttackRelease(Tone.Frequency(`${settingsConfig.isChromatic ? note + '2' : 'C3'}`).harmonize([0, 7, 12, 16]), '2n', "+2.5")
-    //   piano.triggerAttackRelease(Tone.Frequency(`${note}3`), "2n", "+3.7")
-    // }
     const ans = `${pitchArr.nextNote() + randNum(5)}`
     setAnswer(ans)
+
+    // determines whether an establishing chord progression will precede the note, and what key it should be in
+    if (settingsConfig.establishKey) {
+
+      const note =`${settingsConfig.isChromatic ? pitchArr.nextNote() + '2' : 'C3'}`
+
+      piano.triggerAttackRelease(Tone.Frequency(note).harmonize([0, 7, 12, 16]) as unknown as Frequency[], '4n', "+.5")
+      piano.triggerAttackRelease(Tone.Frequency(note).harmonize([5, 9, 12, 17]) as unknown as Frequency[], '4n', "+1")
+      piano.triggerAttackRelease(Tone.Frequency(note).harmonize([7, 11, 14, 19]) as unknown as Frequency[], '4n', "+1.5")
+      piano.triggerAttackRelease(Tone.Frequency(note).harmonize([-5, 5, 11, 17]) as unknown as Frequency[], '4n', "+2")
+      piano.triggerAttackRelease(Tone.Frequency(note).harmonize([0, 7, 12, 16]) as unknown as Frequency[], '2n', "+2.5")
+      piano.triggerAttackRelease(Tone.Frequency(ans) as unknown as Frequency, "2n", "+3.7")
+    }
+    else {
+      piano.triggerAttackRelease(ans, '4n');
+    }    
     // trigger svg animation
-    setRunSVGWave(true);
-    
-    piano.triggerAttackRelease(ans, '4n');
+    setTimeout(() => setRunSVGWave(true), 3700)
   }
 
 
@@ -91,16 +96,16 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         total_attempts: 1,
         num_correct: 1,
         num_incorrect: 0,
-        current_streak: 1 
+        current_streak: pitchScores?.current_streak
       }
       console.log('correct', fetchConfig)
-    } 
+    }
     else {
       fetchConfig = {
         total_attempts: 1,
         num_correct: 0,
         num_incorrect: 1,
-        current_streak: 0
+        current_streak: -1
       }      
       console.log('incorrect', fetchConfig)
     }
@@ -118,8 +123,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
     .then(data => setPitchScores(data.rows[0]))
     .then(() => {
       if (pitch === answer.slice(0, -1)) {
-      const curr = pitchArr.nextNote();
-      playSound(curr)
+        playSound()
       }
     })
   }

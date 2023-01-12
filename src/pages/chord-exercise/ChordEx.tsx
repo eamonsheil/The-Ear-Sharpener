@@ -29,11 +29,6 @@ const inversions: ChordArr = {
   half_diminished: [[0, 3, 6, 10], [0, 3, 7, 9], [0, 4, 6, 9], [0, 2, 5, 8]]
 };
 
-type AnswerObj = {
-  chord: string[], 
-  correctAns: string
-};
-
 const defaultObj = {
   chord: [], 
   correctAns: ''
@@ -58,7 +53,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
   // const [currentNote, setCurrentNote] = useState<string | undefined>('');
   const [useInversions, setUseInversions] = useState(false);
-  const [answer, setAnswer] = useState<AnswerObj>(defaultObj);
+  const [answer, setAnswer] = useState<ChordAnsObj>(defaultObj);
   const [score, setScore] = useState(scoreObj);
   const [settingsConfig, setSettingsConfig] = useState(defChordSettings);
 
@@ -153,7 +148,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         total_attempts: 1,
         num_correct: 1,
         num_incorrect: 0,
-        current_streak: 1 
+        current_streak: chordScores?.current_streak 
       }
       console.log('correct', fetchConfig)
     } 
@@ -162,7 +157,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         total_attempts: 1,
         num_correct: 0,
         num_incorrect: 1,
-        current_streak: 0
+        current_streak: -1
       }      
       console.log('incorrect', fetchConfig)
     }

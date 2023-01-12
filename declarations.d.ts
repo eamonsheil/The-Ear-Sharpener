@@ -16,7 +16,6 @@ type ChordObj = {
   note: string | undefined;
 };
 
-
 type ExerciseConfig = {
   ansOptions?: string[];
   isChromatic: boolean;
@@ -25,8 +24,13 @@ type ExerciseConfig = {
 }
 
 type ScoresObj = {
-  current_streak: number;
+  current_streak?: number;
   num_correct: number;
   num_incorrect: number;
   total_attempts: number;
 }
+
+type ChordAnsObj = {
+  chord: string[],
+  correctAns: string
+};
