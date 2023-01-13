@@ -13,8 +13,8 @@ import { UserContext } from './context/user.context';
 import { Footer } from './components/Footer';
 
 
-export const DATABASE_URL = 'http://localhost:3000/'
-// 'https://expressjs-postgres-production-382e.up.railway.app/';
+export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/'; 
+// 'http://localhost:3000/'
 
 const App = () => {
   const userContext = useContext(UserContext);
