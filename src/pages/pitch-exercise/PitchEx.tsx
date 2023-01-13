@@ -47,9 +47,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       }
     })
     .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      setPitchScores(data.rows[0])})
+    .then(data => setPitchScores(data.rows[0]))
   },[])
 
 
@@ -125,7 +123,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       if (pitch === answer.slice(0, -1)) {
         playSound()
       }
-    })
+    });
   }
 
   // runs MusicWave animation, and plays the 'currNote', if there is one
@@ -153,7 +151,9 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
             Incorrect: {pitchScores.num_incorrect} <br />
             Current Streak: {pitchScores.current_streak}
           </p>
-        </> : <div/>}
+        </> : <div className='exerciseScores'>
+          Please login or create an account to save and track your progress
+          </div>}
       </div>
       <div className="config">
         <ExerciseConfig resetConfig={resetConfig}>

@@ -1,6 +1,7 @@
 .home-container {
-    /* flex-direction: column; */
-    /* justify-content: center; */
+    flex-direction: column;
+    padding: 1em 0;
+    /* justify-content: space-evenly; */
     /* align-items: center; */
     height: 90vh;
     /* border: 1px solid green; */
@@ -8,11 +9,12 @@
 }
 
 .titleFlag {
-    margin-top: .5em;
+    /* margin-top:1em; */
     width: 100%;
-    height: var(--app-title-height);
-    /* border: 2px solid yellow; */
+    height: 20vw;
+    /* border: 1px solid yellow; */
     justify-content: center;
+    align-items: center;
 }
 .appTitle {
     font-size: 5vw;
@@ -25,18 +27,6 @@
     /* border: 2px solid red; */
     color: rgb(255, 255, 255);
     text-shadow: -1px 2px 6px black;
-}
-
-@media (max-width: 600px) {
-    .home-container {
-        /* --app-titlepheight: 8.8vw */
-    }
-
-    .appTitle {
-        font-size: 2em;
-        top: 21vw;
-    }
-    
 }
 
 .clefSvg-container {
@@ -60,39 +50,47 @@
 
 
 .exercise-links-container {
-    height: 30em;
+    height: 62vh;
+    width: 100%;
     justify-content: center;
     align-items: center;
     /* border: 1px solid red; */
-
 }
 
-.chord-link {
-    /* border: 1px solid red; */
-    background-color: #1a1a1a;
-    margin: 0 1em;
-    border-radius: .5em;
-    height: 25em;
-    width: 22em;
-    justify-content: center;
-    align-items: center;
-}
-.chord-link:hover {
-    box-shadow: 0px 0px 5px #111111;
-}
-
-
-.pitch-link {
+.exercise-link {
     /* border: 1px solid purple; */
     background-color: #1a1a1a;
     margin: 0 1em;
     border-radius: .5em;
-    height: 25em;
-    width: 22em;
+    height: 50vh;
+    min-height: 40vh;
+    width: 42vw;
     justify-content: center;
     align-items: center;
 }
 
-.pitch-link:hover {
+.exercise-link:hover {
     box-shadow: 0px 0px 5px #111111;
 }
+
+@media (max-width: 600px) {
+    .home-container {
+        /* --app-titlepheight: 8.8vw */
+    }
+
+    .appTitle {
+        font-size: 2em;
+        top: 21vw;
+    }
+}
+
+
+@media (min-width: 1100px) {
+    .nav-link {
+      padding: 0 .3em;
+    }
+    a {
+        font-size: 3vw;
+    }
+  
+  }

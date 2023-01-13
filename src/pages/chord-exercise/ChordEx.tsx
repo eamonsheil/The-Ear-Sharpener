@@ -52,9 +52,9 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
   const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
   // const [currentNote, setCurrentNote] = useState<string | undefined>('');
-  const [useInversions, setUseInversions] = useState(false);
+  // const [useInversions, setUseInversions] = useState(false);
   const [answer, setAnswer] = useState<ChordAnsObj>(defaultObj);
-  const [score, setScore] = useState(scoreObj);
+  // const [score, setScore] = useState(scoreObj);
   const [settingsConfig, setSettingsConfig] = useState(defChordSettings);
 
   const chordArr = useMemo(() => new PitchArray(settingsConfig.ansOptions), [settingsConfig.ansOptions]);
@@ -69,26 +69,18 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
       }
     })
     .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      setChordScores(data.rows[0])})
+    .then(data => setChordScores(data.rows[0]))
   },[])
 
-
-  // onClick, the next note value from our PitchArray is popped off
-  const handleClick = () => {
-    const curr = pitchArr.nextNote();
-    // setCurrentNote(curr);
-    playSound(curr);
-  };
-
-  async function playSound(note?: string) {
+  // function is called at beggining of ex
+  async function playSound() {
     // setTimeout(setTotalQs(prev => (prev + 1)), 300);
     if (Tone.context.state !== 'running') {
       await Tone.start();
     }
     // trigger svg animation
     setRunSVGWave(true);
+    const note = pitchArr.nextNote()
 
     const chord = getRandomChord(note);
 
@@ -103,6 +95,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
    // returns object containing chord data
   function getRandomChord(note?: string): ChordObj {
+    const { useInversions } = settingsConfig;
     const nextChord = chordArr.nextNote();
     
     const chords: ChordArr = {
@@ -140,7 +133,6 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
 
   async function handleAnswer(chord: string) {
-    console.log(chord)
     // contents of fetchConfig correspond to table columns, and will be added to the values stored in the tables
     let fetchConfig:ScoresObj
     if (chord === answer.correctAns) {
@@ -174,8 +166,8 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     .then(data => setChordScores(data.rows[0]))
     .then(() => {
       if (chord === answer.correctAns) {
-      const curr = pitchArr.nextNote();
-      playSound(curr)
+      // const curr = pitchArr.nextNote();
+      playSound()
     }
     })
   }
@@ -226,7 +218,9 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
             Incorrect: {chordScores.num_incorrect} <br />
             Current Streak: {chordScores.current_streak}
           </p>
-        </> : <div/>}
+        </> : <div className='exerciseScores'>
+          Please login or create an account to save and track your progress
+          </div>}
       </div>
 
       <div className="config">
@@ -252,7 +246,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
       </div>
       <div className='start-game flex'>
-        <button onClick={handleClick}>Begin</button>
+        <button onClick={playSound}>Begin</button>
       </div>
     </div>
   );
