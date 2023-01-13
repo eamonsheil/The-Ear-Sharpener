@@ -29,16 +29,11 @@ const inversions: ChordArr = {
   half_diminished: [[0, 3, 6, 10], [0, 3, 7, 9], [0, 4, 6, 9], [0, 2, 5, 8]]
 };
 
-const defaultObj = {
+const defaultAnsObj = {
   chord: [], 
   correctAns: ''
 };
 
-const scoreObj = {
-  totalQs: 0,
-  correct: 0,
-  incorrect: 0
-};
 const defChordSettings = {
   useInversions: false,
   noteDuration: '2n',
@@ -49,17 +44,15 @@ const defChordSettings = {
 export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExProps) {
   const userContext = useContext(UserContext);
 
-
   const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
-  // const [currentNote, setCurrentNote] = useState<string | undefined>('');
-  // const [useInversions, setUseInversions] = useState(false);
-  const [answer, setAnswer] = useState<ChordAnsObj>(defaultObj);
-  // const [score, setScore] = useState(scoreObj);
+  const [answer, setAnswer] = useState<ChordAnsObj>(defaultAnsObj);
   const [settingsConfig, setSettingsConfig] = useState(defChordSettings);
 
   const chordArr = useMemo(() => new PitchArray(settingsConfig.ansOptions), [settingsConfig.ansOptions]);
+  const disabled:HTMLButtonElement[] = [];
 
   useEffect(() => {
+    if (userContext?.user) {
     fetch(DATABASE_URL + `api/scores/chord`, {
       method:'GET',
       credentials: 'include',
@@ -70,6 +63,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     })
     .then(res => res.json())
     .then(data => setChordScores(data.rows[0]))
+  }
   },[])
 
   // function is called at beggining of ex
@@ -132,7 +126,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   }
 
 
-  async function handleAnswer(chord: string) {
+  async function handleAnswer(e:Event, chord: string) {
     // contents of fetchConfig correspond to table columns, and will be added to the values stored in the tables
     let fetchConfig:ScoresObj
     if (chord === answer.correctAns) {
@@ -142,7 +136,8 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         num_incorrect: 0,
         current_streak: chordScores?.current_streak 
       }
-      console.log('correct', fetchConfig)
+      // console.log('correct', fetchConfig)
+      disabled.forEach(el => el.disabled = false)
     } 
     else {
       fetchConfig = {
@@ -151,25 +146,37 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         num_incorrect: 1,
         current_streak: -1
       }      
-      console.log('incorrect', fetchConfig)
+      // console.log('incorrect', fetchConfig)
+      if (e) {
+        const target = e.target as HTMLButtonElement;
+  	    target.disabled = true;
+        disabled.push(target)
+      }
     }
-    await fetch(DATABASE_URL + "api/scores/chord", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(fetchConfig)
-    })
-    .then(res => res.json())
-    .then(data => setChordScores(data.rows[0]))
-    .then(() => {
+    // if/else to allow users to use the exercise without logging in
+    if (userContext?.user){
+      await fetch(DATABASE_URL + "api/scores/chord", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(fetchConfig)
+      })
+      .then(res => res.json())
+      .then(data => setChordScores(data.rows[0]))
+      .then(() => {
+        if (chord === answer.correctAns) {
+          playSound()
+        }
+      })
+    } 
+    else {
       if (chord === answer.correctAns) {
-      // const curr = pitchArr.nextNote();
-      playSound()
+        playSound()
+      }
     }
-    })
   }
 
   async function handleSVGClick() {
@@ -204,7 +211,6 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
       );
     });
 
-
   return (
     <div className='exercise-container'>
       <div className='gridDumbDiv1'/>
@@ -226,7 +232,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
       <div className="config">
 
         <ExerciseConfig resetConfig={resetConfig}>
-
+          
         <h4>Select chords to be tested on</h4>
           <div className="flex chordOptions">
             

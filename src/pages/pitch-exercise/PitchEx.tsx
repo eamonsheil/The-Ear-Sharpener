@@ -1,23 +1,18 @@
 import * as Tone from 'tone';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
 import { DATABASE_URL } from '../../App';
 import { Frequency } from 'tone/build/esm/core/type/Units';
+import { UserContext } from '../../context/user.context';
 
 export interface IPitchExProps {
   runSVGWave:boolean;
   setRunSVGWave: React.Dispatch<React.SetStateAction<boolean>>;
   piano: Tone.Sampler;
   pitchArr:PitchArray
-}
-
-const scoreObj = {
-  totalQs: 0,
-  correct: 0,
-  incorrect: 0
 }
 
 const defPitchSettings = {
@@ -32,22 +27,28 @@ const defPitchSettings = {
 }
 
 export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExProps) {
-  const [score, setScore] = useState(scoreObj);
+  const userContext = useContext(UserContext);
+
   const [pitchScores, setPitchScores] = useState<ScoresObj | null>(null);
   const [answer, setAnswer] = useState('C4');
   const [settingsConfig, setSettingsConfig] = useState(defPitchSettings);
 
+  const disabled:HTMLButtonElement[] = [];
+
   useEffect(() => {
-    fetch(DATABASE_URL + `api/scores/pitch`, {
-      method:'GET',
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(res => res.json())
-    .then(data => setPitchScores(data.rows[0]))
+
+    if (userContext?.user) {
+      fetch(DATABASE_URL + `api/scores/pitch`, {
+        method:'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(res => res.json())
+      .then(data => setPitchScores(data.rows[0]))
+    }
   },[])
 
 
@@ -86,7 +87,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
 
 
   // checks user selection against the answer state object, updates score state object
-  async function handleAnswer(pitch: string) {
+  async function handleAnswer(e:Event, pitch: string) {
 
     let fetchConfig:ScoresObj
     if (pitch === answer.slice(0, -1)) {
@@ -96,7 +97,8 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         num_incorrect: 0,
         current_streak: pitchScores?.current_streak
       }
-      console.log('correct', fetchConfig)
+      // console.log('correct', fetchConfig)
+      disabled.forEach(el => el.disabled = false)
     }
     else {
       fetchConfig = {
@@ -105,25 +107,37 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         num_incorrect: 1,
         current_streak: -1
       }      
-      console.log('incorrect', fetchConfig)
+      // console.log('incorrect', fetchConfig)
+      if (e) {
+        const target = e.target as HTMLButtonElement;
+  	    target.disabled = true;
+        disabled.push(target)
+      }
     }
-    await fetch(DATABASE_URL + "api/scores/pitch", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(fetchConfig)
-    })
-    .then(res => res.json())
+    if (userContext?.user){
+      await fetch(DATABASE_URL + "api/scores/pitch", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(fetchConfig)
+      })
+      .then(res => res.json())
 
-    .then(data => setPitchScores(data.rows[0]))
-    .then(() => {
+      .then(data => setPitchScores(data.rows[0]))
+      .then(() => {
+        if (pitch === answer.slice(0, -1)) {
+          playSound()
+        }
+      });
+    } 
+    else {
       if (pitch === answer.slice(0, -1)) {
         playSound()
       }
-    });
+    }
   }
 
   // runs MusicWave animation, and plays the 'currNote', if there is one

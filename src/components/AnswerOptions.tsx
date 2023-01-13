@@ -1,4 +1,3 @@
-import * as React from 'react';
 import './components.styles.css'
 
 export interface IChordOptionsProps {
@@ -7,19 +6,25 @@ export interface IChordOptionsProps {
 }
 
 export function AnswerOptions ({handleAnswer, data}: IChordOptionsProps) {
-  
-    // const chords = ["major", "minor", "augmented", "diminished_triad", "major_7th", "dominant_7th", "minor_7th", "diminished", "half_diminished"];
-    // const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
-    
 
-    const mapData = ():JSX.Element[] => {
-      return data.map(el => {
-        return <button className='ansOption' key={el} onClick={() => handleAnswer(el)}>{el}</button>
-        })
+  const elements = data.map(el => {
+    let name:string;
+
+    if (data[0].length > 2) {
+      const correctedName = el.split('_')
+      const corrected = correctedName[0][0].toUpperCase() + correctedName[0].substring(1) + " " + (correctedName.length === 2 ? correctedName[1][0].toUpperCase() + correctedName[1].substring(1) : "")
+      name = corrected
+    } 
+    else {
+      name = el
     }
+    
+    return <button className='ansOption' disabled={false} key={el} onClick={(e) => handleAnswer(e, el)}>{name}</button>
+  })
+
   return (
     <>
-      {mapData()}
+      {elements}
     </>
-  );
+  )
 }
