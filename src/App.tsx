@@ -10,10 +10,11 @@ import { PitchArray } from './utils/pitchArray';
 import { Register } from './pages/Login/Register';
 import { Login } from './pages/Login/Login';
 import { UserContext } from './context/user.context';
+import { Footer } from './components/Footer';
 
 
-export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/';
-// 'http://localhost:3000/'
+export const DATABASE_URL = 'http://localhost:3000/'
+// 'https://expressjs-postgres-production-382e.up.railway.app/';
 
 const App = () => {
   const userContext = useContext(UserContext);
@@ -54,10 +55,10 @@ const App = () => {
             Home
           </Link>
           <Link className="nav-link" to="/chord_practice">
-            Chord <br/>Exercise
+            Chord Exercise
           </Link>
           <Link className="nav-link" to="/pitch_practice">
-            Pitch <br/>Exercise
+            Pitch Exercise
           </Link>
           {userContext?.user ? 
           <div>
@@ -87,6 +88,9 @@ const App = () => {
         </section>
       </BrowserRouter>
       {/* <Piano piano={piano}/> */}
+      <section className="footer">
+        <Footer/>
+      </section>
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import * as Tone from 'tone';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PitchArray } from '../../utils/pitchArray';
 import { MusicWave } from '../../components/MusicWave';
 import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
 import { DATABASE_URL } from '../../App';
-import { Frequency, Interval } from 'tone/build/esm/core/type/Units';
+import { Frequency } from 'tone/build/esm/core/type/Units';
 
 export interface IPitchExProps {
   runSVGWave:boolean;

@@ -1,26 +1,57 @@
+.home-container {
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    height: 90vh;
+    /* border: 1px solid green; */
+    --app-title-height: 18.9vw
+}
+
 .titleFlag {
-    height: 10em;
+    margin-top: .5em;
+    width: 100%;
+    height: var(--app-title-height);
+    /* border: 2px solid yellow; */
     justify-content: center;
-    flex-grow: 1;
-    flex-shrink: 1;
 }
 .appTitle {
+    font-size: 5vw;
     position: absolute;
+    top: 18vh;
+    bottom: 82vh;
+    margin: 0 20vw;
+    width: 60vw;
+    height: fit-content;
+    /* border: 2px solid red; */
     color: rgb(255, 255, 255);
     text-shadow: -1px 2px 6px black;
 }
 
 @media (max-width: 600px) {
+    .home-container {
+        /* --app-titlepheight: 8.8vw */
+    }
+
     .appTitle {
-        font-size: 2.2em;
-        top: 3em;
+        font-size: 2em;
+        top: 21vw;
     }
     
 }
 
-
+.clefSvg-container {
+    /* border: 1px solid purple; */
+    height: var(--app-title-height);
+    width: 73vw;
+    /* overflow: hidden; */
+    margin: 0 13.5vw;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
 .trebleClef-svg {
-    height: 10em;
+    height: var(--app-title-height);
+    width: 72vw;
     border-radius: .5em;
     stroke:transparent;
     /* position: absolute; */

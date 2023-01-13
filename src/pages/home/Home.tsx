@@ -12,9 +12,9 @@ export function Home() {
   const userContext = useContext(UserContext);
   return (
     <div className="home-container">
-      <div className="flex titleFlag">
+      <h2 className='appTitle'>The Ear Sharpener</h2>
+      <div className='flex titleFlag'>
         <TrebleClef/>
-        <h1 className='appTitle'>The Ear Sharpener</h1>
       </div>
       {userContext?.user ?<p>Welcome back, {userContext?.user?.name}</p>: null}
       <div className="flex exercise-links-container">

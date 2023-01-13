@@ -17,6 +17,8 @@
 }
 
 a {
+  word-wrap: break-word;
+  font-size: 2.2vw;
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -32,11 +34,6 @@ body {
   place-items: center; */
   /* min-width: 320px; */
   /* min-height: 100vh; */
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
