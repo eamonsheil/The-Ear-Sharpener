@@ -11,7 +11,7 @@ export function AnswerOptions ({handleAnswer, data}: IChordOptionsProps) {
     let name:string;
 
     if (data[0].length > 2) {
-      const correctedName = el.split('_')
+      const correctedName = el.split('_');
       const corrected = correctedName[0][0].toUpperCase() + correctedName[0].substring(1) + " " + (correctedName.length === 2 ? correctedName[1][0].toUpperCase() + correctedName[1].substring(1) : "")
       name = corrected
     } 

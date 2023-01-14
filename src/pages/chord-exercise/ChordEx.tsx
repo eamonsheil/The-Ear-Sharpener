@@ -47,10 +47,10 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
   const [answer, setAnswer] = useState<ChordAnsObj>(defaultAnsObj);
   const [settingsConfig, setSettingsConfig] = useState(defChordSettings);
-
+  const [disabledBtn, setDisabledBtn] = useState<HTMLButtonElement[]>([])
   const chordArr = useMemo(() => new PitchArray(settingsConfig.ansOptions), [settingsConfig.ansOptions]);
-  const disabled:HTMLButtonElement[] = [];
-
+  // as buttons they are added to 'disabled' array, to later be re-enabled
+  
   useEffect(() => {
     if (userContext?.user) {
     fetch(DATABASE_URL + `api/scores/chord`, {
@@ -66,19 +66,18 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   }
   },[])
 
-  // function is called at beggining of ex
+  // function is called at beginning of ex
   async function playSound() {
-    // setTimeout(setTotalQs(prev => (prev + 1)), 300);
     if (Tone.context.state !== 'running') {
       await Tone.start();
     }
     // trigger svg animation
     setRunSVGWave(true);
-    const note = pitchArr.nextNote()
+    const bassNote = settingsConfig.isChromatic ? pitchArr.nextNote() : 'C';
 
-    const chord = getRandomChord(note);
+    const chord = getRandomChord(bassNote);
 
-    piano.triggerAttackRelease(chord.currentChord, '4n');
+    piano.triggerAttackRelease(chord.currentChord, settingsConfig.noteDuration);
 
     setAnswer({ chord: chord.currentChord, correctAns: chord.chordQuality });
   }
@@ -87,7 +86,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     return Math.floor(Math.random() * num);
   }
 
-   // returns object containing chord data
+   // accepts 'base note' string, returns object containing chord data
   function getRandomChord(note?: string): ChordObj {
     const { useInversions } = settingsConfig;
     const nextChord = chordArr.nextNote();
@@ -137,7 +136,8 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         current_streak: chordScores?.current_streak 
       }
       // console.log('correct', fetchConfig)
-      disabled.forEach(el => el.disabled = false)
+      disabledBtn.forEach(el => el.disabled = false);
+      setDisabledBtn([])
     } 
     else {
       fetchConfig = {
@@ -145,12 +145,12 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
         num_correct: 0,
         num_incorrect: 1,
         current_streak: -1
-      }      
+      }
       // console.log('incorrect', fetchConfig)
       if (e) {
         const target = e.target as HTMLButtonElement;
   	    target.disabled = true;
-        disabled.push(target)
+        setDisabledBtn([...disabledBtn, target])
       }
     }
     // if/else to allow users to use the exercise without logging in
@@ -185,7 +185,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     }
 
     setRunSVGWave(true);
-    piano.triggerAttackRelease(answer.chord, '4n');
+    piano.triggerAttackRelease(answer.chord, settingsConfig.noteDuration);
   }
 
   function resetConfig() {
@@ -215,9 +215,8 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     <div className='exercise-container'>
       <div className='gridDumbDiv1'/>
       <div className="exerciseScores">
-        { chordScores ? 
+        { userContext?.user && chordScores ? 
         <>
-          <h4>Score:</h4>
           <p>
             Total Attempts: {chordScores.total_attempts} <br/> 
             Correct: {chordScores.num_correct} <br/> 
@@ -232,12 +231,51 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
       <div className="config">
 
         <ExerciseConfig resetConfig={resetConfig}>
-          
-        <h4>Select chords to be tested on</h4>
-          <div className="flex chordOptions">
-            
-            {chordOptionsCheckboxes}
-          </div>
+        <div>
+          <h4>Note Duration</h4>
+          <label htmlFor="short" className="for"> Short:
+            <input type="radio" 
+              name="short" 
+              checked={settingsConfig.noteDuration === '4n'}
+              onChange={() => setSettingsConfig({...settingsConfig, noteDuration: '4n'})} />
+          </label>
+          <label htmlFor="medium" className="for"> Medium:
+            <input type="radio" 
+              name="medium" 
+              checked={settingsConfig.noteDuration === '2n'}
+              onChange={() => setSettingsConfig({...settingsConfig, noteDuration: '2n'})} />
+          </label>
+          <label htmlFor="long" className="for"> Long:
+            <input type="radio" 
+              name="long" 
+              checked={settingsConfig.noteDuration === '1m'}
+              onChange={() => setSettingsConfig({...settingsConfig, noteDuration: '1m'})} />
+          </label>
+        </div>
+        <div>
+          <label htmlFor="isChromatic" >
+            Chromatic base note?
+            <input type="checkbox" 
+              name="isChromatic" 
+              checked={settingsConfig.isChromatic}
+              onChange={() => setSettingsConfig({...settingsConfig, isChromatic: !settingsConfig.isChromatic})} />
+          </label>
+        </div>
+        <div>
+          <h4>Select chords to be tested on</h4>
+            <div className="flex chordOptions">
+              {chordOptionsCheckboxes}
+            </div>
+        </div>
+        <div>
+          <label htmlFor="useInversions" >
+            Include Chord Inversions?
+            <input type="checkbox" 
+              name="useInversions" 
+              checked={settingsConfig.useInversions}
+              onChange={() => setSettingsConfig({...settingsConfig, useInversions: !settingsConfig.useInversions})} />
+          </label>
+        </div>
 
         </ExerciseConfig>
 
@@ -252,7 +290,13 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
 
       </div>
       <div className='start-game flex'>
-        <button onClick={playSound}>Begin</button>
+        <button 
+          onClick={() => {
+            disabledBtn.forEach(el => el.disabled = false)
+            playSound()}
+          }>
+              Next Chord
+        </button>
       </div>
     </div>
   );

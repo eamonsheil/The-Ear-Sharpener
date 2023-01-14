@@ -32,8 +32,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   const [pitchScores, setPitchScores] = useState<ScoresObj | null>(null);
   const [answer, setAnswer] = useState('C4');
   const [settingsConfig, setSettingsConfig] = useState(defPitchSettings);
-
-  const disabled:HTMLButtonElement[] = [];
+  const [disabled, setDisabled] = useState<HTMLButtonElement[]>([])
 
   useEffect(() => {
 
@@ -68,7 +67,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
 
     // determines whether an establishing chord progression will precede the note, and what key it should be in
     if (settingsConfig.establishKey) {
-
+      setTimeout(() => setRunSVGWave(true), 3700);
       const note =`${settingsConfig.isChromatic ? pitchArr.nextNote() + '2' : 'C3'}`
 
       piano.triggerAttackRelease(Tone.Frequency(note).harmonize([0, 7, 12, 16]) as unknown as Frequency[], '4n', "+.5")
@@ -79,10 +78,9 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       piano.triggerAttackRelease(Tone.Frequency(ans) as unknown as Frequency, "2n", "+3.7")
     }
     else {
-      piano.triggerAttackRelease(ans, '4n');
-    }    
-    // trigger svg animation
-    setTimeout(() => setRunSVGWave(true), 3700)
+      piano.triggerAttackRelease(ans, settingsConfig.noteDuration);
+      setRunSVGWave(true);
+    }
   }
 
 
@@ -98,7 +96,8 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         current_streak: pitchScores?.current_streak
       }
       // console.log('correct', fetchConfig)
-      disabled.forEach(el => el.disabled = false)
+      disabled.forEach(el => el.disabled = false);
+      // setDisabled([])
     }
     else {
       fetchConfig = {
@@ -111,7 +110,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       if (e) {
         const target = e.target as HTMLButtonElement;
   	    target.disabled = true;
-        disabled.push(target)
+        setDisabled([...disabled, target]);
       }
     }
     if (userContext?.user){
@@ -146,7 +145,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       await Tone.start();
     }
     setRunSVGWave(true);
-    piano.triggerAttackRelease(answer, '4n');
+    piano.triggerAttackRelease(answer, settingsConfig.noteDuration);
   }
 
   function resetConfig() {
@@ -156,9 +155,8 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   return (  
     <div className="exercise-container">
       <div className="exerciseScores">
-      { pitchScores ? 
+      { userContext?.user && pitchScores ? 
         <>
-          <h4>Score:</h4>
           <p>
             Total Attempts: {pitchScores.total_attempts} <br/> 
             Correct: {pitchScores.num_correct} <br/> 
@@ -171,7 +169,45 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
       </div>
       <div className="config">
         <ExerciseConfig resetConfig={resetConfig}>
-
+        <div>
+          <label htmlFor="establishKey" >
+            Establish key?
+            <input type="checkbox" 
+              name="establishKey" 
+              checked={settingsConfig.establishKey}
+              onChange={() => setSettingsConfig({...settingsConfig, establishKey: !settingsConfig.establishKey})} />
+          </label>
+        </div>
+        <div>
+          <h4>Note Duration</h4>
+          <label htmlFor="short" className="for"> Short:
+            <input type="radio" 
+              name="short" 
+              checked={settingsConfig.noteDuration === '4n'}
+              onChange={() => setSettingsConfig({...settingsConfig, noteDuration: '4n'})} />
+          </label>
+          <label htmlFor="medium" className="for"> Medium:
+            <input type="radio" 
+              name="medium" 
+              checked={settingsConfig.noteDuration === '2n'}
+              onChange={() => setSettingsConfig({...settingsConfig, noteDuration: '2n'})} />
+          </label>
+          <label htmlFor="long" className="for"> Long:
+            <input type="radio" 
+              name="long" 
+              checked={settingsConfig.noteDuration === '1m'}
+              onChange={() => setSettingsConfig({...settingsConfig, noteDuration: '1m'})} />
+          </label>
+        </div>
+        <div>
+          <label htmlFor="isChromatic" >
+            Chromatic base note?
+            <input type="checkbox" 
+              name="isChromatic" 
+              checked={settingsConfig.isChromatic}
+              onChange={() => setSettingsConfig({...settingsConfig, isChromatic: !settingsConfig.isChromatic})} />
+          </label>
+        </div>
         </ExerciseConfig>
       </div>
       <div className="wave flex">
@@ -182,7 +218,13 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         <AnswerOptions handleAnswer={handleAnswer} data={pitchArr.data}/>
       </div>
       <div className='start-game flex'>
-        <button onClick={() => playSound()}>Begin</button>
+        <button 
+          onClick={() => {
+            disabled.forEach(el => el.disabled = false)
+            playSound()}
+          }>
+            Next Note
+        </button>
       </div>
     </div>
   );
