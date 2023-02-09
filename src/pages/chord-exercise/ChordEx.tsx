@@ -6,7 +6,7 @@ import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
 import "./chordEx.styles.css"
 import { DATABASE_URL } from '../../App';
-import { UserContext } from '../../context/user.context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 
@@ -42,7 +42,7 @@ const defChordSettings = {
 };
 
 export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExProps) {
-  const userContext = useContext(UserContext);
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   const [chordScores, setChordScores] = useState<ScoresObj | null>(null);
   const [answer, setAnswer] = useState<ChordAnsObj>(defaultAnsObj);
@@ -52,7 +52,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
   // as buttons they are added to 'disabled' array, to later be re-enabled
   
   useEffect(() => {
-    if (userContext?.user) {
+    if (user && isAuthenticated) {
     fetch(DATABASE_URL + `api/scores/chord`, {
       method:'GET',
       credentials: 'include',
@@ -154,7 +154,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
       }
     }
     // if/else to allow users to use the exercise without logging in
-    if (userContext?.user){
+    if (user && isAuthenticated){
       await fetch(DATABASE_URL + "api/scores/chord", {
         method: "POST",
         headers: {
@@ -215,7 +215,7 @@ export function ChordEx({runSVGWave, setRunSVGWave, piano, pitchArr}: IChordExPr
     <div className='exercise-container'>
       <div className='gridDumbDiv1'/>
       <div className="exerciseScores">
-        { userContext?.user && chordScores ? 
+        { user && isAuthenticated && chordScores ? 
         <>
           <p>
             Total Attempts: {chordScores.total_attempts} <br/> 
