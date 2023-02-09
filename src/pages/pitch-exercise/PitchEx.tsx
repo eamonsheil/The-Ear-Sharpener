@@ -6,7 +6,7 @@ import { AnswerOptions } from '../../components/AnswerOptions';
 import { ExerciseConfig } from '../../components/ExerciseConfig';
 import { DATABASE_URL } from '../../App';
 import { Frequency } from 'tone/build/esm/core/type/Units';
-import { UserContext } from '../../context/user.context';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export interface IPitchExProps {
   runSVGWave:boolean;
@@ -27,7 +27,7 @@ const defPitchSettings = {
 }
 
 export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExProps) {
-  const userContext = useContext(UserContext);
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   const [pitchScores, setPitchScores] = useState<ScoresObj | null>(null);
   const [answer, setAnswer] = useState('C4');
@@ -36,7 +36,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
 
   useEffect(() => {
 
-    if (userContext?.user) {
+    if (user && isAuthenticated) {
       fetch(DATABASE_URL + `api/scores/pitch`, {
         method:'GET',
         credentials: 'include',
@@ -113,7 +113,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
         setDisabled([...disabled, target]);
       }
     }
-    if (userContext?.user){
+    if (user && isAuthenticated){
       await fetch(DATABASE_URL + "api/scores/pitch", {
         method: "POST",
         headers: {
@@ -155,7 +155,7 @@ export function PitchEx({runSVGWave, setRunSVGWave, piano, pitchArr}:IPitchExPro
   return (  
     <div className="exercise-container">
       <div className="exerciseScores">
-      { userContext?.user && pitchScores ? 
+      { user && isAuthenticated && pitchScores ? 
         <>
           <p>
             Total Attempts: {pitchScores.total_attempts} <br/> 

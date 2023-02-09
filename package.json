@@ -10,10 +10,10 @@
     "format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" "
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.12.1",
     "@vercel/analytics": "^0.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.40.0",
     "react-router-dom": "^6.4.3",
     "tone": "^14.7.77"
   },

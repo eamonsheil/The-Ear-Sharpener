@@ -1,3 +1,11 @@
+type AppUser = {
+  id: string,
+  name: string,
+  email: string,
+  chordScores?: [],
+  pitchScores?: []
+}
+
 type ChordArr = {
   major: number[][] | Tone.FrequencyClass<number>[];
   minor: number[][] | Tone.FrequencyClass<number>[];
