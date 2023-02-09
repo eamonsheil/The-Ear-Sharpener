@@ -17,6 +17,7 @@ export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railw
 // 'http://localhost:3000/'
 
 const App = () => {
+  console.log(import.meta.env.PROD)
   const { user, isAuthenticated, isLoading } = useAuth0();
 
     // TODO :

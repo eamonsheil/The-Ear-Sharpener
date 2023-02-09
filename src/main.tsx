@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { Auth0Provider } from '@auth0/auth0-react';
-// import config from "./auth_config.json"
+import config from "./auth_config.json"
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <>
         <Auth0Provider
-            domain={process.env.AUTH_DOMAIN as string}
-            clientId={process.env.AUTH_CLIENTID as string}
+            domain={import.meta.env.PROD ? config.domain : import.meta.env.VITE_AUTH_DOMAIN as string}
+            clientId={import.meta.env.PROD ? config.cliendId : import.meta.env.VITE_AUTH_CLIENTID as string}
             redirectUri={window.location.origin}
         >
             <App />
