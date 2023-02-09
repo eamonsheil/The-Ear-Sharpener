@@ -54,20 +54,6 @@
   gap: 1px;
 }
 
-.login-link {
-  background-color: #bdb78e;
-  color: rgb(255, 255, 255);
-  
-  width: 5em;
-  height: 3em;
-  justify-content: center;
-  align-items: center;
-}
-.login-link:hover {
-  background-color: #807c5e;
-  color: rgb(255, 255, 255);
-}
-
 .mainContent {
   min-height:90vh;
   display: flex;
