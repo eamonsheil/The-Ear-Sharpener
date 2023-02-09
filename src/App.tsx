@@ -13,8 +13,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import OauthLogin, { LogoutButton } from './pages/Login/OauthLogin';
 
 
-export const DATABASE_URL = 'http://localhost:3000/'
-// 'https://expressjs-postgres-production-382e.up.railway.app/'; 
+export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/'; 
+// 'http://localhost:3000/'
 
 const App = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
