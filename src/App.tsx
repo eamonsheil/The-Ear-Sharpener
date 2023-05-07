@@ -9,10 +9,9 @@ import { Footer } from './components/Footer';
 import { PitchArray } from './utils/pitchArray';
 import { usePiano } from './hooks/usePiano';
 import { useAuth0 } from '@auth0/auth0-react';
-import config from "./auth_config.json"
 import './styles.css';
 
-export const DATABASE_URL = import.meta.env.PROD ? import.meta.env.VITE_DB_URL : 'http://localhost:3000/';
+export const DATABASE_URL = import.meta.env.VITE_DB_URL;
 
 const App = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
