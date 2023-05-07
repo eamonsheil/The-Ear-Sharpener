@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { TrebleClef } from './TrebleClef';
 import "./home.styles.css";
-import { useContext } from 'react';
 
 export interface IHomeProps {
   placeholder?: undefined;

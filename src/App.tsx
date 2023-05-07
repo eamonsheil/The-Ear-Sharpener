@@ -11,13 +11,14 @@ import { Register } from './pages/Login/Register';
 import { Footer } from './components/Footer';
 import { useAuth0 } from '@auth0/auth0-react';
 import OauthLogin, { LogoutButton } from './pages/Login/OauthLogin';
+import config from "./auth_config.json"
 
-
-export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/'; 
+export const DATABASE_URL = import.meta.env.DB_URL;
+// 'https://expressjs-postgres-production-382e.up.railway.app/'; 
 // 'http://localhost:3000/'
 
 const App = () => {
-  console.log(import.meta.env.PROD)
+  console.log(config.domain)
   const { user, isAuthenticated, isLoading } = useAuth0();
 
     // TODO :
@@ -27,10 +28,7 @@ const App = () => {
 
     // const [showMenu, setShowMenu] = useState(false);
     const pitchArr = useMemo(() => new PitchArray(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'] ), []);
-    
-  
     const piano = usePiano(setPageLoading);
-
 
     useEffect(() => {
       const fetchUserData = async () => {
