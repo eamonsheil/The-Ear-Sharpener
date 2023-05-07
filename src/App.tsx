@@ -1,24 +1,22 @@
+import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/home/Home';
 import { ChordEx } from './pages/chord-exercise/ChordEx';
 import { PitchEx } from './pages/pitch-exercise/PitchEx';
-// import { Piano } from './components/Piano';
-import { useState, useMemo, useEffect, useContext } from 'react';
-import './styles.css';
-import { usePiano } from './hooks/usePiano';
-import { PitchArray } from './utils/pitchArray';
 import { Register } from './pages/Login/Register';
+import { OauthLogin, LogoutButton } from './pages/Login/OauthLogin';
 import { Footer } from './components/Footer';
+import { PitchArray } from './utils/pitchArray';
+import { usePiano } from './hooks/usePiano';
 import { useAuth0 } from '@auth0/auth0-react';
-import OauthLogin, { LogoutButton } from './pages/Login/OauthLogin';
+import config from "./auth_config.json"
+import './styles.css';
 
-
-export const DATABASE_URL = 'https://expressjs-postgres-production-382e.up.railway.app/'; 
-// 'http://localhost:3000/'
+export const DATABASE_URL = import.meta.env.PROD ? import.meta.env.VITE_DB_URL : 'http://localhost:3000/';
 
 const App = () => {
-  console.log(import.meta.env.PROD)
   const { user, isAuthenticated, isLoading } = useAuth0();
+  console.log(user)
 
     // TODO :
     // this state variable may serve better as a useRef, the point is to call the animate function from outside MusicWave
@@ -27,10 +25,7 @@ const App = () => {
 
     // const [showMenu, setShowMenu] = useState(false);
     const pitchArr = useMemo(() => new PitchArray(['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'] ), []);
-    
-  
     const piano = usePiano(setPageLoading);
-
 
     useEffect(() => {
       const fetchUserData = async () => {
