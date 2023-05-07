@@ -15,7 +15,7 @@ export const DATABASE_URL = import.meta.env.VITE_DB_URL;
 
 const App = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
-  console.log(user)
+  console.log(DATABASE_URL)
 
     // TODO :
     // this state variable may serve better as a useRef, the point is to call the animate function from outside MusicWave
